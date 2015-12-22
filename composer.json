@@ -1,0 +1,21 @@
+{
+  "autoload": {
+    "psr-0": {
+      "": "src"
+    }
+  },
+  "authors": [
+    {
+      "name": "Armen Alaverdyan",
+      "email": "mrandersen2004@yandex.ru",
+      "homepage": "http://unrealcode.ru",
+      "role": "Senior web-developer"
+    }
+  ],
+  "require": {
+    "abraham/twitteroauth" : "0.6.2",
+    "facebook/php-sdk-v4" : "5.1.2",
+    "vladkens/vk": "0.1.9",
+    "twig/twig" : "1.23.1"
+  }
+}
