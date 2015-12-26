@@ -16,6 +16,7 @@
     "abraham/twitteroauth" : "0.6.2",
     "facebook/php-sdk-v4" : "5.1.2",
     "vladkens/vk": "0.1.9",
-    "twig/twig" : "1.23.1"
+    "twig/twig" : "1.23.1",
+    "symfony/http-foundation": "^3.0"
   }
 }
