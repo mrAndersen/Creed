@@ -10,10 +10,44 @@
     <link rel="stylesheet" href="/css/style.css">
 
     <script src="/js/jquery.min.js"></script>
+    <script src="//vk.com/js/api/openapi.js" type="text/javascript"></script>
 </head>
 <body>
 <script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : 1536863159967920,
+            xfbml      : true,
+            version    : 'v2.5'
+        });
+    };
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+<script>
+    VK.init({apiId: 4905664});
+
     $(function(){
+        var doVkPost = function(){
+
+
+
+
+
+//            VK.Api.call('wall.post',{
+//                'friends_only': 0,
+//                'message':'#ГотовБоротьсяЗа'
+//            },function(r){
+//                console.log(r);
+//            })
+        };
+
+
         $('.take-photo').hide();
 
         $(".user-hashtag").keyup(function() {
@@ -34,6 +68,84 @@
             $('.buttons').hide();
             $('.share-buttons').show();
         });
+
+
+        $(document).on('click tap','.share-vk',function(e){
+            e.preventDefault();
+
+            VK.Auth.login(function(loginResponse){
+                console.log(loginResponse);
+
+
+                VK.Api.call('photos.getWallUploadServer',{},function(r){
+                    if(r.response.upload_url){
+                        $.ajax({
+                            method: 'post',
+                            url: '/vkPostImage',
+                            data:{
+                                vk_post_url: r.response.upload_url,
+                                photo: $('.download').attr('href')
+                            },
+                            success: function(e){
+
+                                console.log(e);
+                            }
+                        })
+                    }
+
+                    console.log(r);
+                });
+            },8196);
+        });
+
+        $(document).on('click tap','.share-fb',function(e){
+            e.preventDefault();
+
+            FB.getLoginStatus(function(response) {
+                if (response.status === 'connected') {
+                    console.log(response);
+                }
+                else {
+                    FB.login();
+                }
+            });
+        });
+
+        $(document).on('click tap','.share-twitter',function(e){
+            e.preventDefault();
+            $.ajax({
+                method: 'post',
+                url: '/shareTwitterAuth',
+                data:{
+                    photo: $('.download').attr('href')
+                },
+                success: function(e){
+                    if(e.url){
+                        window.open(e.url);
+                    }
+                }
+            })
+        });
+
+
+
+//        $(document).on('click tap','.social-share',function(e){
+//            e.preventDefault();
+//
+//            $.ajax({
+//                method: 'post',
+//                url: '/',
+//                data: {
+//                    image: $('.download').attr('href'),
+//                    type: $(this).attr('data-type')
+//                },
+//                success: function(e){
+//                    if(e.auth){
+//                        location.href = e.auth;
+//                    }
+//                }
+//            })
+//        });
 
         $(document).on('change','#photo',function(){
             if(this.files && this.files[0]){
@@ -56,21 +168,8 @@
 
                         context.drawImage(image, -((sourceWidth - canvas.width) / 2),0,sourceWidth,sourceHeight);
 
-
                         var exampleHashTag = new Image();
                         exampleHashTag.src = '/img/example.hashtag.png';
-
-                        var userHashTag = new Image();
-                        userHashTag.src = '/img/example.hashtag.png';
-
-                        userHashTag.onload = function(){
-                            context.drawImage(userHashTag,(canvas.width - userHashTag.width) / 2,canvas.height - userHashTag.height - 25);
-
-                            context.font = "65px pf_din_text_cond_probold";
-                            context.fillStyle = '#000';
-                            context.textAlign = 'center';
-                            context.fillText($('.user-hashtag').val().toUpperCase(),canvas.width / 2,canvas.height - 60);
-                        };
 
                         exampleHashTag.onload = function(){
                             context.drawImage(exampleHashTag,(canvas.width - exampleHashTag.width) / 2,canvas.height - exampleHashTag.height - 150);
@@ -79,14 +178,22 @@
                             context.fillStyle = '#9e040c';
                             context.fillText("# ГотовБоротьсяЗа",(canvas.width - exampleHashTag.width) / 2 + 25,canvas.height - exampleHashTag.height - 75);
 
-                            $('.download').attr('href',canvas.toDataURL());
-                        };
+                            var userHashTag = new Image();
+                            userHashTag.src = '/img/example.hashtag.png';
 
+                            userHashTag.onload = function(){
+                                context.drawImage(userHashTag,(canvas.width - userHashTag.width) / 2,canvas.height - userHashTag.height - 25);
+
+                                context.font = "65px pf_din_text_cond_probold";
+                                context.fillStyle = '#000';
+                                context.textAlign = 'center';
+                                context.fillText($('.user-hashtag').val().toUpperCase(),canvas.width / 2,canvas.height - 60);
+
+                                $('.download').attr('href',canvas.toDataURL());
+                            };
+                        };
                     }
                 };
-
-
-
             }
         });
     })
@@ -132,11 +239,10 @@
         <a href="" class="share"></a>
     </div>
     <div class="share-buttons">
-        <a href="" class="share-vk"></a>
-        <a href="" class="share-fb"></a>
-        <a href="" class="share-twitter"></a>
+        <a href="" data-type="vk" class="social-share share-vk"></a>
+        <a href="" data-type="fb" class="social-share share-fb"></a>
+        <a href="" data-type="twitter" class="social-share share-twitter"></a>
     </div>
 </div>
-
 </body>
 </html>
