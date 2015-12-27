@@ -11,26 +11,63 @@
 
     <script src="/js/jquery.min.js"></script>
     <script src="//vk.com/js/api/openapi.js" type="text/javascript"></script>
+    <script src="/js/preloadjs-0.6.2.min.js" type="text/javascript"></script>
 </head>
 <body>
-<script>
-    window.fbAsyncInit = function() {
-        FB.init({
-            appId      : 1536863159967920,
-            xfbml      : true,
-            version    : 'v2.5'
-        });
-    };
-    (function(d, s, id){
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
+{#<script>#}
+    {#window.fbAsyncInit = function() {#}
+        {#FB.init({#}
+            {#appId      : 1536863159967920,#}
+            {#xfbml      : true,#}
+            {#version    : 'v2.5'#}
+        {#});#}
+    {#};#}
+    {#(function(d, s, id){#}
+        {#var js, fjs = d.getElementsByTagName(s)[0];#}
+        {#if (d.getElementById(id)) {return;}#}
+        {#js = d.createElement(s); js.id = id;#}
+        {#js.src = "//connect.facebook.net/en_US/sdk.js";#}
+        {#fjs.parentNode.insertBefore(js, fjs);#}
+    {#}(document, 'script', 'facebook-jssdk'));#}
+{#</script>#}
 <script>
     VK.init({apiId: 4905664});
+    var progress = 0;
+    var files = [
+        '/img/bg.png',
+        '/img/button.bg.png',
+        '/img/copy.png',
+        '/img/creators.png',
+        '/img/date.png',
+        '/img/download.png',
+        '/img/example.hashtag.png',
+        '/img/fb.png',
+        '/img/instagram.png',
+        '/img/ok.png',
+        '/img/reload.png',
+        '/img/share.fb.png',
+        '/img/share.png',
+        '/img/share.twitter.png',
+        '/img/share.vk.png',
+        '/img/title.png',
+        '/img/twitter.png',
+        '/img/user.hashtag.png',
+        '/img/vk.png',
+        '/img/youtube.png'
+    ];
+
+    var queue = new createjs.LoadQueue(true);
+    queue.on('complete', function(){
+        $('.overlay').hide();
+    });
+    queue.on('fileload',function(e){
+        var step = parseInt(100 / files.length);
+        progress = progress + step;
+        $('.percent').html(progress + '%');
+    });
+    queue.loadManifest(files);
+
+
 
     $(function(){
         var doVkPost = function(){
@@ -198,6 +235,9 @@
         });
     })
 </script>
+<div class="overlay">
+    <div class="percent">0%</div>
+</div>
 <div class="main">
     <div class="copyright"></div>
     <div class="social">
