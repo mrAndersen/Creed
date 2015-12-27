@@ -8,8 +8,27 @@
     <title>Крид</title>
 
     <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/js/jquery.min.js"></script>
 </head>
 <body>
+<script>
+    $(function(){
+        $('.take-photo').hide();
+
+        $(".user-hashtag").keyup(function() {
+            this.value = this.value.replace(/[^а-яё]/i, "");
+
+            if(this.value.length > 0){
+                $('.instructions').hide();
+                $('.take-photo').show();
+            }else{
+                $('.instructions').show();
+                $('.take-photo').hide();
+            }
+        })
+    })
+</script>
 <div class="main">
     <div class="copyright"></div>
     <div class="social">
@@ -28,6 +47,10 @@
         <div class="example-hashtag"># ГотовБоротьсяЗа</div>
         <input type="text" class="user-hashtag">
         <div class="instructions">Инструкции</div>
+        <label class="take-photo">
+            <span>Сделать фото +</span>
+            <input id="photo" type="file" accept="image/*;capture=camera">
+        </label>
         <div class="footer">
             <div class="age">16+</div>
             <ul>
