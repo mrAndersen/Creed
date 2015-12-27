@@ -128,13 +128,18 @@ $app->get('/shareTwitter',function(){
     $connection = new \Abraham\TwitterOAuth\TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET,$_SESSION['oauth_token'],$_SESSION['oauth_token_secret']);
 
     $name = $helper->convertBase64ToTmpFile($_SESSION['image']);
-    $photo = $connection->upload('media/upload',['media' => $name]);
-    $helper->removeTmpFile($name);
 
-    $statues = $connection->post("statuses/update", [
-        'status' => '#ГотовБоротьсяЗа #Creed',
-        'media_ids' => $photo->media_id
-    ]);
+    try{
+        $photo = $connection->upload('media/upload',['media' => $name]);
+        $helper->removeTmpFile($name);
+
+        $statues = $connection->post("statuses/update", [
+            'status' => '#ГотовБоротьсяЗа #Creed',
+            'media_ids' => $photo->media_id
+        ]);
+    }catch (\Exception $e){
+        $helper->removeTmpFile($name);
+    }
 
     $response = new \Symfony\Component\HttpFoundation\RedirectResponse('https://twitter.com');
     $response->send();

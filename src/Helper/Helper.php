@@ -2,23 +2,31 @@
 
 namespace Helper;
 
+use Intervention\Image\ImageManagerStatic;
+
 class Helper {
 
 
     public function convertBase64ToTmpFile($rawBase64)
     {
-        $photo      = base64_decode(explode(',',$rawBase64)[1]);
-        $photo      = imagecreatefromstring($photo);
-
         $name       = time().mt_rand(0,999999999).'.png';
-        $photo      = imagepng($photo,$name);
+        $photo      = ImageManagerStatic::make($rawBase64);
 
+        $photo->widen($photo->width() / 1.5);
+        $photo->encode('png');
+        $photo->save($name);
         return $name;
     }
 
     public function removeTmpFile($name)
     {
-        return unlink($name);
+        $result = false;
+        if(file_exists($name)){
+            $result = unlink($name);
+        }
+        unset($_SESSION['image']);
+
+        return $result;
     }
 
 }
