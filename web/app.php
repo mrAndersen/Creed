@@ -93,7 +93,7 @@ $app->post('/vkPostImage',function(){
 });
 
 
-$app->post('/shareTwitterAuth',function(){
+$app->post('/authTwitter',function(){
     session_start();
     $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
 
