@@ -26,7 +26,69 @@
                 $('.instructions').show();
                 $('.take-photo').hide();
             }
-        })
+        });
+
+        $(document).on('click tap','.share',function(e){
+            e.preventDefault();
+
+            $('.buttons').hide();
+            $('.share-buttons').show();
+        });
+
+        $(document).on('change','#photo',function(){
+            if(this.files && this.files[0]){
+                var reader = new FileReader();
+                var canvas = document.getElementById('preview-canvas');
+                var context = canvas.getContext('2d');
+
+                reader.readAsDataURL(this.files[0]);
+                reader.onload = function(_file){
+                    var image = new Image();
+                    image.src = _file.target.result;
+                    image.onload = function(){
+
+                        $('.main').addClass('backed');
+                        $('.preview').show();
+
+                        var imageRatio = image.width / image.height;
+                        var sourceWidth = 1334 * imageRatio;
+                        var sourceHeight = 1334;
+
+                        context.drawImage(image, -((sourceWidth - canvas.width) / 2),0,sourceWidth,sourceHeight);
+
+
+                        var exampleHashTag = new Image();
+                        exampleHashTag.src = '/img/example.hashtag.png';
+
+                        var userHashTag = new Image();
+                        userHashTag.src = '/img/example.hashtag.png';
+
+                        userHashTag.onload = function(){
+                            context.drawImage(userHashTag,(canvas.width - userHashTag.width) / 2,canvas.height - userHashTag.height - 25);
+
+                            context.font = "65px pf_din_text_cond_probold";
+                            context.fillStyle = '#000';
+                            context.textAlign = 'center';
+                            context.fillText($('.user-hashtag').val().toUpperCase(),canvas.width / 2,canvas.height - 60);
+                        };
+
+                        exampleHashTag.onload = function(){
+                            context.drawImage(exampleHashTag,(canvas.width - exampleHashTag.width) / 2,canvas.height - exampleHashTag.height - 150);
+
+                            context.font = "65px pf_din_text_cond_probold";
+                            context.fillStyle = '#9e040c';
+                            context.fillText("# ГотовБоротьсяЗа",(canvas.width - exampleHashTag.width) / 2 + 25,canvas.height - exampleHashTag.height - 75);
+
+                            $('.download').attr('href',canvas.toDataURL());
+                        };
+
+                    }
+                };
+
+
+
+            }
+        });
     })
 </script>
 <div class="main">
@@ -49,7 +111,7 @@
         <div class="instructions">Инструкции</div>
         <label class="take-photo">
             <span>Сделать фото +</span>
-            <input id="photo" type="file" accept="image/*;capture=camera">
+            <input id="photo" type="file" accept="image/*; capture=camera">
         </label>
         <div class="footer">
             <div class="age">16+</div>
@@ -59,6 +121,20 @@
                 <li><a href="">Политика конфиденциальности</a></li>
             </ul>
         </div>
+    </div>
+</div>
+
+<div class="preview">
+    <canvas width="750" height="1334" id="preview-canvas"></canvas>
+    <div class="buttons">
+        <a href="" class="reload"></a>
+        <a href="" class="download" target="_blank" download="#ГотовБоротьсяЗа"></a>
+        <a href="" class="share"></a>
+    </div>
+    <div class="share-buttons">
+        <a href="" class="share-vk"></a>
+        <a href="" class="share-fb"></a>
+        <a href="" class="share-twitter"></a>
     </div>
 </div>
 

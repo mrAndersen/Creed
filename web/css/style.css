@@ -34,12 +34,71 @@ html body {
   width: 100%;
   height: 100%;
 }
+html body .preview {
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+html body .preview canvas {
+  width: 216rem;
+  height: 370rem;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+  margin: 40rem auto 0;
+  display: block;
+}
+html body .preview .share-buttons {
+  display: none;
+}
+html body .preview .buttons,
+html body .preview .share-buttons {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+html body .preview .buttons a,
+html body .preview .share-buttons a {
+  display: inline-block;
+  width: 78rem;
+  height: 52rem;
+  margin: 10rem 10rem;
+  background-size: cover;
+}
+html body .preview .buttons .reload,
+html body .preview .share-buttons .reload {
+  background-image: url('/img/reload.png');
+}
+html body .preview .buttons .download,
+html body .preview .share-buttons .download {
+  background-image: url('/img/download.png');
+}
+html body .preview .buttons .share,
+html body .preview .share-buttons .share {
+  background-image: url('/img/share.png');
+}
+html body .preview .buttons .share-vk,
+html body .preview .share-buttons .share-vk {
+  background-image: url('/img/share.vk.png');
+}
+html body .preview .buttons .share-fb,
+html body .preview .share-buttons .share-fb {
+  background-image: url('/img/share.fb.png');
+}
+html body .preview .buttons .share-twitter,
+html body .preview .share-buttons .share-twitter {
+  background-image: url('/img/share.twitter.png');
+}
 html body .main {
   position: absolute;
   width: 100%;
   height: 100%;
   background: url('/img/bg.png') no-repeat center center fixed;
   background-size: cover;
+}
+html body .main.backed {
+  z-index: 1;
+  opacity: 0.1;
 }
 html body .main .social {
   float: right;
