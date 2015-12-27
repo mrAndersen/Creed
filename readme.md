@@ -14,3 +14,4 @@
     3. git clone https://github.com/mrAndersen/Creed.git
     4. php composer.phar install -d=Creed
     5. Прописать реврайт на web/app.php, пример есть в проекте для nginx - /rewrite.example.conf
+    6. А так же не забыть прописать post_max_size у php на уровне хотя бы 50М и такое же значение для веб сервера
