@@ -1,4 +1,5 @@
 @import "../fonts/stylesheet.css";
+@import "loader.css";
 
 *{
   border: none;
@@ -137,7 +138,7 @@ html{
       height: 100%;
       background: rgba(0,0,0,0.5);
       z-index: 999;
-      display: none;
+//      display: none;
       .loader-inner{
         font-size: 20rem;
         font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
@@ -154,12 +155,10 @@ html{
         text-transform: uppercase;
         letter-spacing: 3rem;
         .loader{
-          background-image: url('/img/ajax-loader.gif');
-          width: 100rem;
-          height: 100rem;
           position: relative;
-          display: inline-block;
-          margin: 10rem 0 0 0;
+          width: 130rem;
+          height: 130rem;
+          text-align: center;
           &:after{
             content: '';
             background-image: url('/img/camera.png');
@@ -167,8 +166,8 @@ html{
             width: 41rem;
             height: 35rem;
             position: absolute;
-            left: 30rem;
-            top: 30rem;
+            left: 45rem;
+            top: 35rem;
           }
         }
       }

@@ -1,4 +1,5 @@
 @import "../fonts/stylesheet.css";
+@import "loader.css";
 * {
   border: none;
   margin: 0;
@@ -142,7 +143,6 @@ html body .loader-wrapper {
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   z-index: 999;
-  display: none;
 }
 html body .loader-wrapper .loader-inner {
   font-size: 20rem;
@@ -161,12 +161,10 @@ html body .loader-wrapper .loader-inner {
   letter-spacing: 3rem;
 }
 html body .loader-wrapper .loader-inner .loader {
-  background-image: url('/img/ajax-loader.gif');
-  width: 100rem;
-  height: 100rem;
   position: relative;
-  display: inline-block;
-  margin: 10rem 0 0 0;
+  width: 130rem;
+  height: 130rem;
+  text-align: center;
 }
 html body .loader-wrapper .loader-inner .loader:after {
   content: '';
@@ -175,8 +173,8 @@ html body .loader-wrapper .loader-inner .loader:after {
   width: 41rem;
   height: 35rem;
   position: absolute;
-  left: 30rem;
-  top: 30rem;
+  left: 45rem;
+  top: 35rem;
 }
 html body .instructions-wrapper {
   display: none;
