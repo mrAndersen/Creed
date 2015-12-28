@@ -179,7 +179,7 @@
 
         $('.take-photo').hide();
 
-        if('FileReader' in window == false){
+        if('FileReader' in window == false || 'FormData' in window == false){
             $('.user-hashtag').hide();
             $('.instructions').hide();
         }
