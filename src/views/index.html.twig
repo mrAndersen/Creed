@@ -58,7 +58,9 @@
         '/img/user.hashtag.png',
         '/img/vk.png',
         '/img/youtube.png',
-        '/img/watch.png'
+        '/img/watch.png',
+        '/img/camera.png',
+        '/img/loader.gif'
     ];
 
     var queue = new createjs.LoadQueue(true);
@@ -85,8 +87,11 @@
     }
 
     $(function(){
+        var loader = $('.loader-wrapper');
 
         var postVk = function(){
+            loader.show();
+
             VK.Api.call('photos.getWallUploadServer',{},function(r){
                 if(r.response.upload_url){
                     console.log(r);
@@ -137,6 +142,8 @@
         };
 
         var postFb = function(){
+            loader.show();
+
             var imageData   = document.getElementById('preview-canvas').toDataURL('image/png');
 
             try{
@@ -159,7 +166,7 @@
                     contentType: false,
                     cache: false,
                     success:function(e){
-                        location.href = 'https://facebook.com';
+                        location.href = 'https://facebook.com/profile.php';
                     },
                     error: function(e){
                         console.log(e);
@@ -237,6 +244,8 @@
 
         $(document).on('click tap','.share-twitter',function(e){
             e.preventDefault();
+            loader.show();
+
             $.ajax({
                 method: 'post',
                 url: '/authTwitter',
@@ -304,6 +313,12 @@
 </script>
 <div class="overlay">
     <div class="percent">0%</div>
+</div>
+<div class="loader-wrapper">
+    <div class="loader-inner">
+        Загрузка
+        <div class="loader"></div>
+    </div>
 </div>
 <div class="main">
     <div class="copyright"></div>

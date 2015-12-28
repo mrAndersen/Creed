@@ -131,6 +131,48 @@ html{
         }
       }
     }
+    .loader-wrapper{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+      display: none;
+      .loader-inner{
+        font-size: 20rem;
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+        color: #fff;
+        margin: auto;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        top: 0;
+        width: 130rem;
+        height: 130rem;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 3rem;
+        .loader{
+          background-image: url('/img/loader.gif');
+          width: 100rem;
+          height: 100rem;
+          position: relative;
+          display: inline-block;
+          margin: 10rem 0 0 0;
+          &:after{
+            content: '';
+            background-image: url('/img/camera.png');
+            background-size: cover;
+            width: 41rem;
+            height: 35rem;
+            position: absolute;
+            left: 30rem;
+            top: 30rem;
+          }
+        }
+      }
+    }
     .instructions-wrapper{
       display: none;
       position: absolute;
@@ -178,7 +220,7 @@ html{
       .watch{
         display: block;
         margin: 0 auto;
-        width: 140rem;
+        width: 110rem;
       }
     }
     .main{
