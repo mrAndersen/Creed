@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Крид</title>
+    <title>Крид: Наследие Рокки – Расскажи о своем кредо</title>
+    <meta name="keywords" content="кино, спорт, бокс, Рокки, Рокки Бальбоа, Крид Наследие Рокки, Крид, фильм, фильмы 2016">
 
     <link rel="stylesheet" href="/css/style.css">
 
@@ -16,24 +17,24 @@
     <link rel="icon" type="image/png" href="favicon.png?v=a">
 </head>
 <body>
-{#<script>#}
-    {#window.fbAsyncInit = function() {#}
-        {#FB.init({#}
-            {#appId      : 1536863159967920,#}
-            {#xfbml      : true,#}
-            {#version    : 'v2.5'#}
-        {#});#}
-    {#};#}
-    {#(function(d, s, id){#}
-        {#var js, fjs = d.getElementsByTagName(s)[0];#}
-        {#if (d.getElementById(id)) {return;}#}
-        {#js = d.createElement(s); js.id = id;#}
-        {#js.src = "//connect.facebook.net/en_US/sdk.js";#}
-        {#fjs.parentNode.insertBefore(js, fjs);#}
-    {#}(document, 'script', 'facebook-jssdk'));#}
-{#</script>#}
 <script>
-    VK.init({apiId: 4905664});
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : 1536863159967920,
+            xfbml      : true,
+            version    : 'v2.5'
+        });
+    };
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+<script>
+    VK.init({apiId: 5200246});
     var progress = 0;
     var files = [
         '/img/bg.png',
@@ -55,7 +56,8 @@
         '/img/twitter.png',
         '/img/user.hashtag.png',
         '/img/vk.png',
-        '/img/youtube.png'
+        '/img/youtube.png',
+        '/img/watch.png'
     ];
 
     var queue = new createjs.LoadQueue(true);
@@ -69,12 +71,59 @@
     });
     queue.loadManifest(files);
 
-
+    function dataURItoBlob(dataURI) {
+        var byteString = atob(dataURI.split(',')[1]);
+        var ab = new ArrayBuffer(byteString.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        return new Blob([ab], {
+            type: 'image/png'
+        });
+    }
 
     $(function(){
-        var doVkPost = function(){
 
+        var postVk = function(){
+            VK.Api.call('photos.getWallUploadServer',{},function(r){
+                if(r.response.upload_url){
+                    console.log(r);
 
+                    var imageData   = document.getElementById('preview-canvas').toDataURL('image/png');
+
+                    try{
+                        var blob = dataURItoBlob(imageData);
+                    }catch(e){
+                        console.log(e);
+                    }
+
+                    var form = new FormData();
+                    form.append("photo", blob);
+
+                    try {
+                        $.ajax({
+                            url: '/vkPostImage?dest=' + r.response.upload_url,
+                            type: "POST",
+                            data: form,
+                            processData: false,
+                            contentType: false,
+                            cache: false,
+                            success:function(e){
+                                console.log(e);
+                            },
+                            error: function(e){
+                                console.log(e);
+                            }
+                        });
+                    }catch(e){
+                        console.log(e);
+                    }
+
+                }
+
+                console.log(r);
+            });
 
 
 
@@ -84,6 +133,40 @@
 //            },function(r){
 //                console.log(r);
 //            })
+        };
+
+        var postFb = function(){
+            var imageData   = document.getElementById('preview-canvas').toDataURL('image/png');
+
+            try{
+                var blob = dataURItoBlob(imageData);
+            }catch(e){
+                console.log(e);
+            }
+
+            var form = new FormData();
+            form.append("access_token", FB.getAccessToken());
+            form.append("source", blob);
+            form.append("caption", '#ГотовБоротьсяЗа #IFightFor #КридРокки');
+
+            try{
+                $.ajax({
+                    url: "https://graph.facebook.com/me/photos?access_token=" + FB.getAccessToken(),
+                    type: "POST",
+                    data: form,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    success:function(e){
+                        location.href = 'https://facebook.com';
+                    },
+                    error: function(e){
+                        console.log(e);
+                    }
+                });
+            }catch(e){
+                console.log(e);
+            }
         };
 
 
@@ -101,6 +184,16 @@
             }
         });
 
+        $(document).on('click tap','.instructions',function(){
+            $('.instructions-wrapper').show();
+            $('.main').hide();
+        });
+
+        $(document).on('click tap','.ok',function(e){
+            $('.instructions-wrapper').hide();
+            $('.main').show();
+        });
+
         $(document).on('click tap','.share',function(e){
             e.preventDefault();
 
@@ -112,29 +205,15 @@
         $(document).on('click tap','.share-vk',function(e){
             e.preventDefault();
 
-            VK.Auth.login(function(loginResponse){
-                console.log(loginResponse);
-
-
-                VK.Api.call('photos.getWallUploadServer',{},function(r){
-                    if(r.response.upload_url){
-                        $.ajax({
-                            method: 'post',
-                            url: '/vkPostImage',
-                            data:{
-                                vk_post_url: r.response.upload_url,
-                                photo: $('.download').attr('href')
-                            },
-                            success: function(e){
-
-                                console.log(e);
-                            }
-                        })
-                    }
-
-                    console.log(r);
-                });
-            },8196);
+            VK.Auth.getLoginStatus(function(r){
+                if(r.session){
+                    postVk();
+                }else{
+                    VK.Auth.login(function(r){
+                        postVk();
+                    },8196);
+                }
+            });
         });
 
         $(document).on('click tap','.share-fb',function(e){
@@ -143,9 +222,14 @@
             FB.getLoginStatus(function(response) {
                 if (response.status === 'connected') {
                     console.log(response);
-                }
-                else {
-                    FB.login();
+
+                    postFb();
+                }else{
+                    FB.login(function(response){
+                        console.log(response);
+
+                        postFb();
+                    },{scope: 'publish_actions'});
                 }
             });
         });
@@ -165,26 +249,6 @@
                 }
             })
         });
-
-
-
-//        $(document).on('click tap','.social-share',function(e){
-//            e.preventDefault();
-//
-//            $.ajax({
-//                method: 'post',
-//                url: '/',
-//                data: {
-//                    image: $('.download').attr('href'),
-//                    type: $(this).attr('data-type')
-//                },
-//                success: function(e){
-//                    if(e.auth){
-//                        location.href = e.auth;
-//                    }
-//                }
-//            })
-//        });
 
         $(document).on('change','#photo',function(){
             if(this.files && this.files[0]){
@@ -244,9 +308,9 @@
     <div class="copyright"></div>
     <div class="social">
         <a href="" target="_blank" class="icon youtube"></a>
-        <a href="" target="_blank" class="icon vk"></a>
-        <a href="" target="_blank" class="icon fb"></a>
-        <a href="" target="_blank" class="icon twitter"></a>
+        <a href="http://vk.com/wbrussia" target="_blank" class="icon vk"></a>
+        <a href="https://www.facebook.com/wbrussia?_rdr=p" target="_blank" class="icon fb"></a>
+        <a href="https://twitter.com/warnerBrosRu" target="_blank" class="icon twitter"></a>
         <a href="" target="_blank" class="icon instagram"></a>
         <a href="" target="_blank" class="icon ok"></a>
     </div>
@@ -266,8 +330,8 @@
             <div class="age">16+</div>
             <ul>
                 <li><a href="">Создатели</a></li>
-                <li><a href="">Правила пользования</a></li>
-                <li><a href="">Политика конфиденциальности</a></li>
+                <li><a target="_blank" href="http://www.warnerbros.com/term-use">Правила пользования</a></li>
+                <li><a target="_blank" href="http://www.warnerbros.com/privacy-center-wb-privacy-policy">Политика конфиденциальности</a></li>
             </ul>
         </div>
     </div>
@@ -284,6 +348,32 @@
         <a href="" data-type="vk" class="social-share share-vk"></a>
         <a href="" data-type="fb" class="social-share share-fb"></a>
         <a href="" data-type="twitter" class="social-share share-twitter"></a>
+    </div>
+</div>
+
+<div class="instructions-wrapper">
+    <h2>
+        Инструкции
+    </h2>
+    <p>
+        Расскажи за что ты готов бороться, добавив подпись к хэштегу <a href="">#ГотовБоротьсяЗа</a>. Загрузи фото и поделись результатом с друзьями.
+    </p>
+    <p>
+        Разместив свою работу во ВКонтакте, ты участвуешь в розыгрыше легендарных
+        часов Casio G-SHOCK.
+    </p>
+    <img src="/img/watch.png" class="watch">
+    <p>
+        Подробнее о конкурсе
+        на официальной странице студии
+    </p>
+    <a target="_blank" class="public" href="http://vk.com/wbrussia">
+        <i class="icon vk"></i>
+        <span>WBRussia</span>
+    </a>
+
+    <div class="ok">
+        OK
     </div>
 </div>
 </body>

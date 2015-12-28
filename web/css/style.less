@@ -36,6 +36,33 @@ html{
     overflow: hidden;
     width: 100%;
     height: 100%;
+    .icon{
+      display: inline-block;
+      text-decoration: none;
+      width: 25rem;
+      height: 25rem;
+      float: left;
+      background-size: cover;
+      margin: 10rem 10rem 0 0;
+      &.youtube{
+        background-image: url('/img/youtube.png');
+      }
+      &.vk{
+        background-image: url('/img/vk.png');
+      }
+      &.fb{
+        background-image: url('/img/fb.png');
+      }
+      &.twitter{
+        background-image: url('/img/twitter.png');
+      }
+      &.instagram{
+        background-image: url('/img/instagram.png');
+      }
+      &.ok{
+        background-image: url('/img/ok.png');
+      }
+    }
     .overlay{
       width: 100%;
       height: 100%;
@@ -104,6 +131,56 @@ html{
         }
       }
     }
+    .instructions-wrapper{
+      display: none;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: url('/img/bg2.png') no-repeat center center fixed;
+      background-size: cover;
+      text-align: center;
+      .ok{
+        font-family: pf_din_text_cond_probold;
+        font-size: 20rem;
+        background-image: url('/img/button.bg.png');
+        background-size: cover;
+        text-transform: uppercase;
+        letter-spacing: 3rem;
+        padding: 8rem 20rem;
+        cursor: pointer;
+        width: 90rem;
+        margin: 10rem auto;
+      }
+      .public{
+        display: inline-block;
+        span{
+          font-family: pf_din_text_cond_proregular;
+          font-size: 20rem;
+          display: inline-block;
+          margin: 10rem 0 0 0;
+        }
+      }
+      a{
+        color: #cb050f;
+        text-decoration: none;
+        &:hover, &:visited{
+          text-decoration: none;
+          color: #cb050f
+        }
+      }
+      p{
+        font-family: pf_din_text_cond_proregular;
+        font-size: 20rem;
+        color: #bfbfbf;
+        text-align: center;
+        margin: 10rem 0;
+      }
+      .watch{
+        display: block;
+        margin: 0 auto;
+        width: 140rem;
+      }
+    }
     .main{
       position: absolute;
       width: 100%;
@@ -116,33 +193,6 @@ html{
       }
       .social{
         float: right;
-        .icon{
-          display: inline-block;
-          text-decoration: none;
-          width: 25rem;
-          height: 25rem;
-          float: left;
-          background-size: cover;
-          margin: 10rem 10rem 0 0;
-          &.youtube{
-            background-image: url('/img/youtube.png');
-          }
-          &.vk{
-            background-image: url('/img/vk.png');
-          }
-          &.fb{
-            background-image: url('/img/fb.png');
-          }
-          &.twitter{
-            background-image: url('/img/twitter.png');
-          }
-          &.instagram{
-            background-image: url('/img/instagram.png');
-          }
-          &.ok{
-            background-image: url('/img/ok.png');
-          }
-        }
       }
       .creators{
         background-image: url('/img/creators.png');
@@ -243,7 +293,10 @@ html{
           margin: 0 auto;
           width: 185rem;
           input{
-            display: none;
+            visibility: hidden;
+            position: fixed;
+            right: 100%;
+            bottom: 100%;
           }
         }
         .footer{

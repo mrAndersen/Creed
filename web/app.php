@@ -70,23 +70,28 @@ $app->get('/callback_auth',function() use($app){
 $app->post('/vkPostImage',function(){
     $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
 
-    $vkPostUrl  = $request->request->get('vk_post_url',null);
-    $photo      = $request->request->get('photo',null);
-    $photo      = base64_decode(explode(',',$photo)[1]);
-    $photo      = imagecreatefromstring($photo);
-
-    $name       = time().mt_rand(0,999).'.png';
-    $photo      = imagepng($photo,$name);
+    /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $photo */
+    $photo = $request->files->get('photo');
+    $url  = $request->query->get('dest');
 
     $client = new \GuzzleHttp\Client();
-    $response = $client->request('POST',$vkPostUrl,[
+    $response = $client->request('POST',$url,[
         'multipart' => [
             [
                 'name' => 'photo',
-                'contents' => '@'.$name
+                'contents' => fopen($photo->getRealPath(),'r')
             ]
         ]
     ]);
+
+    die;
+
+
+
+
+
+
+
 
     $response = new \Symfony\Component\HttpFoundation\JsonResponse(json_decode($response->getBody()->__toString(),true));
     $response->send();
@@ -134,7 +139,7 @@ $app->get('/shareTwitter',function(){
         $helper->removeTmpFile($name);
 
         $statues = $connection->post("statuses/update", [
-            'status' => '#ГотовБоротьсяЗа #Creed',
+            'status' => '#ГотовБоротьсяЗа #IFightFor #КридРокки',
             'media_ids' => $photo->media_id
         ]);
     }catch (\Exception $e){

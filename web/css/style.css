@@ -34,6 +34,33 @@ html body {
   width: 100%;
   height: 100%;
 }
+html body .icon {
+  display: inline-block;
+  text-decoration: none;
+  width: 25rem;
+  height: 25rem;
+  float: left;
+  background-size: cover;
+  margin: 10rem 10rem 0 0;
+}
+html body .icon.youtube {
+  background-image: url('/img/youtube.png');
+}
+html body .icon.vk {
+  background-image: url('/img/vk.png');
+}
+html body .icon.fb {
+  background-image: url('/img/fb.png');
+}
+html body .icon.twitter {
+  background-image: url('/img/twitter.png');
+}
+html body .icon.instagram {
+  background-image: url('/img/instagram.png');
+}
+html body .icon.ok {
+  background-image: url('/img/ok.png');
+}
 html body .overlay {
   width: 100%;
   height: 100%;
@@ -109,6 +136,57 @@ html body .preview .buttons .share-twitter,
 html body .preview .share-buttons .share-twitter {
   background-image: url('/img/share.twitter.png');
 }
+html body .instructions-wrapper {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url('/img/bg2.png') no-repeat center center fixed;
+  background-size: cover;
+  text-align: center;
+}
+html body .instructions-wrapper .ok {
+  font-family: pf_din_text_cond_probold;
+  font-size: 20rem;
+  background-image: url('/img/button.bg.png');
+  background-size: cover;
+  text-transform: uppercase;
+  letter-spacing: 3rem;
+  padding: 8rem 20rem;
+  cursor: pointer;
+  width: 90rem;
+  margin: 10rem auto;
+}
+html body .instructions-wrapper .public {
+  display: inline-block;
+}
+html body .instructions-wrapper .public span {
+  font-family: pf_din_text_cond_proregular;
+  font-size: 20rem;
+  display: inline-block;
+  margin: 10rem 0 0 0;
+}
+html body .instructions-wrapper a {
+  color: #cb050f;
+  text-decoration: none;
+}
+html body .instructions-wrapper a:hover,
+html body .instructions-wrapper a:visited {
+  text-decoration: none;
+  color: #cb050f;
+}
+html body .instructions-wrapper p {
+  font-family: pf_din_text_cond_proregular;
+  font-size: 20rem;
+  color: #bfbfbf;
+  text-align: center;
+  margin: 10rem 0;
+}
+html body .instructions-wrapper .watch {
+  display: block;
+  margin: 0 auto;
+  width: 140rem;
+}
 html body .main {
   position: absolute;
   width: 100%;
@@ -122,33 +200,6 @@ html body .main.backed {
 }
 html body .main .social {
   float: right;
-}
-html body .main .social .icon {
-  display: inline-block;
-  text-decoration: none;
-  width: 25rem;
-  height: 25rem;
-  float: left;
-  background-size: cover;
-  margin: 10rem 10rem 0 0;
-}
-html body .main .social .icon.youtube {
-  background-image: url('/img/youtube.png');
-}
-html body .main .social .icon.vk {
-  background-image: url('/img/vk.png');
-}
-html body .main .social .icon.fb {
-  background-image: url('/img/fb.png');
-}
-html body .main .social .icon.twitter {
-  background-image: url('/img/twitter.png');
-}
-html body .main .social .icon.instagram {
-  background-image: url('/img/instagram.png');
-}
-html body .main .social .icon.ok {
-  background-image: url('/img/ok.png');
 }
 html body .main .creators {
   background-image: url('/img/creators.png');
@@ -256,7 +307,10 @@ html body .main .bottom .take-photo {
   width: 185rem;
 }
 html body .main .bottom .take-photo input {
-  display: none;
+  visibility: hidden;
+  position: fixed;
+  right: 100%;
+  bottom: 100%;
 }
 html body .main .bottom .footer .age {
   font-size: 40rem;
