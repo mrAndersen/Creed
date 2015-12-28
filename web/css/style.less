@@ -1,5 +1,4 @@
 @import "../fonts/stylesheet.css";
-@import "loader.css";
 
 *{
   border: none;
@@ -149,16 +148,19 @@ html{
         bottom: 0;
         right: 0;
         top: 0;
-        width: 130rem;
-        height: 130rem;
+        width: 160rem;
+        height: 160rem;
         text-align: center;
         text-transform: uppercase;
         letter-spacing: 3rem;
         .loader{
+          background-image: url('/img/ajax-loader.gif');
+          background-size: cover;
+          width: 160rem;
+          height: 160rem;
           position: relative;
-          width: 130rem;
-          height: 130rem;
-          text-align: center;
+          display: inline-block;
+          margin: 10rem 0 0 0;
           &:after{
             content: '';
             background-image: url('/img/camera.png');
@@ -166,8 +168,8 @@ html{
             width: 41rem;
             height: 35rem;
             position: absolute;
-            left: 45rem;
-            top: 35rem;
+            left: 60rem;
+            top: 60rem;
           }
         }
       }
