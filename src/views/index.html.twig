@@ -177,8 +177,12 @@
             }
         };
 
-
         $('.take-photo').hide();
+
+        if('FileReader' in window == false){
+            $('.user-hashtag').hide();
+            $('.instructions').hide();
+        }
 
         $(".user-hashtag").keyup(function() {
             this.value = this.value.replace(/[^а-яё]/i, "");
@@ -192,9 +196,25 @@
             }
         });
 
-        $(document).on('click tap','.instructions',function(){
+        $(document).on('click tap','.instructions',function(e){
+            e.preventDefault();
             $('.instructions-wrapper').show();
             $('.main').hide();
+        });
+
+        $(document).on('click tap','.reload',function(e){
+            e.preventDefault();
+            $('.preview').hide();
+        });
+
+        $(document).on('click tap','.creators-list-toggle',function(e){
+            e.preventDefault();
+            $('.creators-list').show();
+        });
+
+        $(document).on('click tap','.creators-list',function(e){
+            e.preventDefault();
+            $('.creators-list').hide();
         });
 
         $(document).on('click tap','.ok',function(e){
@@ -271,8 +291,6 @@
                     var image = new Image();
                     image.src = _file.target.result;
                     image.onload = function(){
-
-                        $('.main').addClass('backed');
                         $('.preview').show();
 
                         var imageRatio = image.width / image.height;
@@ -345,11 +363,12 @@
         <div class="footer">
             <div class="age">16+</div>
             <ul>
-                <li><a href="">Создатели</a></li>
+                <li><a href="" class="creators-list-toggle">Создатели</a></li>
                 <li><a target="_blank" href="http://www.warnerbros.com/term-use">Правила пользования</a></li>
                 <li><a target="_blank" href="http://www.warnerbros.com/privacy-center-wb-privacy-policy">Политика конфиденциальности</a></li>
             </ul>
         </div>
+        <div class="creators-list"></div>
     </div>
 </div>
 
