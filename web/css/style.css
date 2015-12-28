@@ -143,6 +143,7 @@ html body .loader-wrapper {
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   z-index: 999;
+  display: none;
 }
 html body .loader-wrapper .loader-inner {
   font-size: 20rem;
