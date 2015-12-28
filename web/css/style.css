@@ -161,7 +161,7 @@ html body .loader-wrapper .loader-inner {
   letter-spacing: 3rem;
 }
 html body .loader-wrapper .loader-inner .loader {
-  background-image: url('/img/loader.gif');
+  background-image: url('/img/ajax-loader.gif');
   width: 100rem;
   height: 100rem;
   position: relative;
