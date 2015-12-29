@@ -13,6 +13,7 @@
     <script src="/js/jquery.min.js"></script>
     <script src="//vk.com/js/api/openapi.js" type="text/javascript"></script>
     <script src="/js/preloadjs-0.6.2.min.js" type="text/javascript"></script>
+    <script src="/js/hermite.js" type="text/javascript"></script>
 
     <link rel="icon" type="image/png" href="favicon.png?v=a">
 </head>
@@ -266,8 +267,9 @@
                         $('.preview').show();
 
                         var imageRatio = image.width / image.height;
-                        var sourceWidth = 1334 * imageRatio;
-                        var sourceHeight = 1334;
+                        var sourceWidth = 667 * imageRatio;
+                        var sourceHeight = 667;
+                        var h = Hermite.init('worker.js');
 
                         context.drawImage(image, -((sourceWidth - canvas.width) / 2),0,sourceWidth,sourceHeight);
 
@@ -275,23 +277,38 @@
                         exampleHashTag.src = '/img/example.hashtag.png';
 
                         exampleHashTag.onload = function(){
-                            context.drawImage(exampleHashTag,(canvas.width - exampleHashTag.width) / 2,canvas.height - exampleHashTag.height - 150);
+                            h.resize({
+                                source: exampleHashTag,
+                                width: exampleHashTag.width / 2,
+                                height: exampleHashTag.height / 2
+                            },function(output) {
+                                exampleHashTag = output;
 
-                            context.font = "65px pf_din_text_cond_probold";
-                            context.fillStyle = '#9e040c';
-                            context.fillText("# ГотовБоротьсяЗа",(canvas.width - exampleHashTag.width) / 2 + 25,canvas.height - exampleHashTag.height - 75);
+                                context.drawImage(exampleHashTag,(canvas.width - exampleHashTag.width) / 2,canvas.height - exampleHashTag.height - 100);
 
-                            var userHashTag = new Image();
-                            userHashTag.src = '/img/example.hashtag.png';
+                                context.font = "32px pf_din_text_cond_probold";
+                                context.fillStyle = '#9e040c';
+                                context.fillText("# ГотовБоротьсяЗа",(canvas.width - exampleHashTag.width) / 2 + 25,canvas.height - exampleHashTag.height - 60);
 
-                            userHashTag.onload = function(){
-                                context.drawImage(userHashTag,(canvas.width - userHashTag.width) / 2,canvas.height - userHashTag.height - 25);
+                                var userHashTag = new Image();
+                                userHashTag.src = '/img/example.hashtag.png';
 
-                                context.font = "65px pf_din_text_cond_probold";
-                                context.fillStyle = '#000';
-                                context.textAlign = 'center';
-                                context.fillText($('.user-hashtag').val().toUpperCase(),canvas.width / 2,canvas.height - 60);
-                            };
+                                userHashTag.onload = function(){
+                                    h.resize({
+                                        source: userHashTag,
+                                        width: userHashTag.width / 2,
+                                        height: userHashTag.height / 2
+                                    },function(output){
+                                        userHashTag = output;
+                                        context.drawImage(userHashTag,(canvas.width - userHashTag.width) / 2,canvas.height - userHashTag.height - 25);
+
+                                        context.font = "32px pf_din_text_cond_probold";
+                                        context.fillStyle = '#000';
+                                        context.textAlign = 'center';
+                                        context.fillText($('.user-hashtag').val().toUpperCase(),canvas.width / 2,canvas.height - 40);
+                                    });
+                                };
+                            });
                         };
                     }
                 };
@@ -343,7 +360,7 @@
 </div>
 
 <div class="preview">
-    <canvas width="750" height="1334" id="preview-canvas"></canvas>
+    <canvas width="375" height="667" id="preview-canvas"></canvas>
     <div class="buttons">
         <a href="" class="reload"></a>
         <a href="" class="download" target="_blank" download="#ГотовБоротьсяЗа"></a>

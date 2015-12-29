@@ -11,12 +11,12 @@
 }
 @media (min-width: 321px) and (orientation: portrait) {
   html {
-    font-size: 1px !important;
+    font-size: 0.8px !important;
   }
 }
 @media (min-width: 481px) and (orientation: portrait) {
   html {
-    font-size: 1.5px !important;
+    font-size: 1.2px !important;
   }
 }
 @media (min-width: 641px) and (orientation: portrait) {
