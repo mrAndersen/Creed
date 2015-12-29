@@ -267,17 +267,19 @@
                     image.src = _file.target.result;
 
                     image.onload = function(){
+                        loader.show();
                         h.resize({
                             source: image,
                             width: image.width / 2,
                             height: image.height / 2
                         },function(reszied){
+                            loader.hide();
+
                             $('.preview').show();
 
                             var imageRatio = reszied.width / reszied.height;
                             var sourceWidth = 667 * imageRatio;
                             var sourceHeight = 667;
-
 
                             context.drawImage(reszied, -((sourceWidth - canvas.width) / 2),0,sourceWidth,sourceHeight);
 
