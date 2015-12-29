@@ -262,21 +262,17 @@
 
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 reader.readAsDataURL(this.files[0]);
+
+                loader.show();
                 reader.onload = function(_file){
                     var image = new Image();
                     image.src = _file.target.result;
-
                     image.onload = function(){
-                        loader.show();
                         h.resize({
                             source: image,
                             width: image.width / 2,
                             height: image.height / 2
                         },function(reszied){
-                            loader.hide();
-
-                            $('.preview').show();
-
                             var imageRatio = reszied.width / reszied.height;
                             var sourceWidth = 667 * imageRatio;
                             var sourceHeight = 667;
@@ -316,6 +312,10 @@
                                             context.fillStyle = '#000';
                                             context.textAlign = 'center';
                                             context.fillText($('.user-hashtag').val().toUpperCase(),canvas.width / 2,canvas.height - 40);
+
+                                            loader.hide();
+                                            $('.preview').show();
+                                            $('.download').attr('href',canvas.toDataURL('image/png'));
                                         });
                                     };
                                 });
