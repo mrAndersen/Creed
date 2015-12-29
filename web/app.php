@@ -20,78 +20,33 @@ $app->get('/', function(){
     $response->send();
 });
 
-$app->post('/',function(){
-    session_start();
-    $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
-
-    $image = $request->request->get('image',null);
-    $type  = $request->request->get('type',null);
-
-    $result = [];
-
-    if($type == 'vk'){
-        $vk = new \Share\Vk();
-        if($vk->isAuthorized()){
-            $vk->post($image);
-        }else{
-            $authURL = $vk->createAuthorizeURL();
-            $result['auth'] = $authURL;
-        }
-    }
-
-    $response = new \Symfony\Component\HttpFoundation\JsonResponse($result);
-    $response->send();
-});
-
-$app->get('/callback_auth',function() use($app){
-    session_start();
-    $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
-    $vk      = $request->get('vk',null);
-
-    if($vk){
-        $vk = new \Share\Vk();
-        $vk->getAndSetToken($request->get('code'));
-
-
-
-    }
-
-});
-
-
-
-
-
-
-
-
 
 
 $app->post('/vkPostImage',function(){
     $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
 
-    /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $photo */
-    $photo = $request->files->get('photo');
-    $url  = $request->query->get('dest');
+    $photo  = $request->request->get('photo');
+    $url    = $request->request->get('url');
 
-    $client = new \GuzzleHttp\Client();
-    $response = $client->request('POST',$url,[
-        'multipart' => [
-            [
-                'name' => 'photo',
-                'contents' => fopen($photo->getRealPath(),'r')
+    $helper  = new \Helper\Helper();
+    $name   = $helper->convertBase64ToTmpFile($photo);
+
+    try{
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('POST',$url,[
+            'multipart' => [
+                [
+                    'name' => 'photo',
+                    'contents' => fopen($name,'r')
+                ]
             ]
-        ]
-    ]);
+        ]);
 
-    die;
+        $helper->removeTmpFile($name);
 
-
-
-
-
-
-
+    }catch (\Exception $e){
+        $helper->removeTmpFile($name);
+    }
 
     $response = new \Symfony\Component\HttpFoundation\JsonResponse(json_decode($response->getBody()->__toString(),true));
     $response->send();
@@ -118,7 +73,6 @@ $app->post('/authTwitter',function(){
 $app->get('/shareTwitter',function(){
     session_start();
     $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
-    $helper  = new \Helper\Helper();
 
     $_SESSION['oauth_token']    = $request->query->get('oauth_token');
     $_SESSION['oauth_verifier'] = $request->query->get('oauth_verifier');
@@ -131,20 +85,13 @@ $app->get('/shareTwitter',function(){
     $_SESSION['twitter_user_id']    = $access_token['user_id'];
 
     $connection = new \Abraham\TwitterOAuth\TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET,$_SESSION['oauth_token'],$_SESSION['oauth_token_secret']);
+    $imageURL = $_SESSION['image'];
 
-    $name = $helper->convertBase64ToTmpFile($_SESSION['image']);
-
-    try{
-        $photo = $connection->upload('media/upload',['media' => $name]);
-        $helper->removeTmpFile($name);
-
-        $statues = $connection->post("statuses/update", [
-            'status' => '#ГотовБоротьсяЗа #IFightFor #КридРокки',
-            'media_ids' => $photo->media_id
-        ]);
-    }catch (\Exception $e){
-        $helper->removeTmpFile($name);
-    }
+    $photo = $connection->upload('media/upload',['media' => $imageURL]);
+    $statues = $connection->post("statuses/update", [
+        'status' => '#ГотовБоротьсяЗа #IFightFor #КридРокки',
+        'media_ids' => $photo->media_id
+    ]);
 
     $response = new \Symfony\Component\HttpFoundation\RedirectResponse('https://twitter.com');
     $response->send();

@@ -5,8 +5,6 @@ namespace Helper;
 use Intervention\Image\ImageManagerStatic;
 
 class Helper {
-
-
     public function convertBase64ToTmpFile($rawBase64)
     {
         $name       = time().mt_rand(0,999999999).'.png';
@@ -24,7 +22,10 @@ class Helper {
         if(file_exists($name)){
             $result = unlink($name);
         }
-        unset($_SESSION['image']);
+
+        if(isset($_SESSION['image'])){
+            unset($_SESSION['image']);
+        }
 
         return $result;
     }

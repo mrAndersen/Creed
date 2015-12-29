@@ -64,9 +64,11 @@
     ];
 
     var queue = new createjs.LoadQueue(true);
+
     queue.on('complete', function(){
         $('.overlay').hide();
     });
+
     queue.on('fileload',function(e){
         var step = parseInt(100 / files.length);
         progress = progress + step;
@@ -74,117 +76,108 @@
     });
     queue.loadManifest(files);
 
-    function dataURItoBlob(dataURI) {
-        var byteString = atob(dataURI.split(',')[1]);
-        var ab = new ArrayBuffer(byteString.length);
-        var ia = new Uint8Array(ab);
-        for (var i = 0; i < byteString.length; i++) {
-            ia[i] = byteString.charCodeAt(i);
-        }
-        return new Blob([ab], {
-            type: 'image/png'
-        });
-    }
-
     $(function(){
-        var loader = $('.loader-wrapper');
+        var loader                  = $('.loader-wrapper');
+        var userHashtagInput        = $(".user-hashtag");
+
+        var imageURL;
+        var imageVkId;
+
+        $('.take-photo').hide();
+        if('FileReader' in window == false || 'FormData' in window == false){
+            userHashtagInput.hide();
+            $('.instructions').hide();
+        }
+
+        var publishImage = function(){
+            VK.Api.call('photos.getWallUploadServer', {}, function (r1) {
+                if (r1.response.upload_url) {
+                    try {
+                        var imageData = document.getElementById('preview-canvas').toDataURL('image/png');
+
+                        $.ajax({
+                            url: '/vkPostImage',
+                            method: 'post',
+                            data: {
+                                photo: imageData,
+                                url: r1.response.upload_url
+                            },
+                            cache: false,
+                            success: function (e) {
+                                var uploadResult = e;
+                                VK.Api.call('photos.saveWallPhoto', {
+                                    photo: uploadResult.photo,
+                                    server: uploadResult.server,
+                                    hash: uploadResult.hash
+                                }, function (r2) {
+                                    loader.hide();
+
+                                    console.log(r2);
+
+                                    imageVkId = r2.response[0].id;
+                                    imageURL  = r2.response[0].src_big;
+
+                                    $('.download').attr('href',imageURL);
+
+                                    $('.buttons').hide();
+                                    $('.share-buttons').show();
+                                })
+                            },
+                            error: function (e) {
+                                console.log(e);
+                            }
+                        });
+                    } catch (e) {
+                        console.log(e);
+                    }
+                }
+            });
+        };
 
         var postVk = function(){
             loader.show();
 
-            VK.Api.call('photos.getWallUploadServer',{},function(r){
-                if(r.response.upload_url){
-                    console.log(r);
-
-                    var imageData   = document.getElementById('preview-canvas').toDataURL('image/png');
-
-                    try{
-                        var blob = dataURItoBlob(imageData);
-                    }catch(e){
-                        console.log(e);
-                    }
-
-                    var form = new FormData();
-                    form.append("photo", blob);
-
-                    try {
-                        $.ajax({
-                            url: '/vkPostImage?dest=' + r.response.upload_url,
-                            type: "POST",
-                            data: form,
-                            processData: false,
-                            contentType: false,
-                            cache: false,
-                            success:function(e){
-                                console.log(e);
-                            },
-                            error: function(e){
-                                console.log(e);
-                            }
-                        });
-                    }catch(e){
-                        console.log(e);
-                    }
-
+            VK.Api.call('wall.post',{
+                'friends_only': 0,
+                'message':'#ГотовБоротьсяЗа #IFightFor #КридРокки',
+                'attachments': imageVkId
+            },function(r3){
+                if(r3.response.post_id){
+                    location.href = 'https://vk.com';
                 }
-
-                console.log(r);
-            });
-
-
-
-//            VK.Api.call('wall.post',{
-//                'friends_only': 0,
-//                'message':'#ГотовБоротьсяЗа'
-//            },function(r){
-//                console.log(r);
-//            })
+            })
         };
 
         var postFb = function(){
             loader.show();
 
-            var imageData   = document.getElementById('preview-canvas').toDataURL('image/png');
-
-            try{
-                var blob = dataURItoBlob(imageData);
-            }catch(e){
-                console.log(e);
-            }
-
-            var form = new FormData();
-            form.append("access_token", FB.getAccessToken());
-            form.append("source", blob);
-            form.append("caption", '#ГотовБоротьсяЗа #IFightFor #КридРокки');
-
-            try{
-                $.ajax({
-                    url: "https://graph.facebook.com/me/photos?access_token=" + FB.getAccessToken(),
-                    type: "POST",
-                    data: form,
-                    processData: false,
-                    contentType: false,
-                    cache: false,
-                    success:function(e){
-                        location.href = 'https://facebook.com/profile.php';
-                    },
-                    error: function(e){
-                        console.log(e);
-                    }
-                });
-            }catch(e){
-                console.log(e);
-            }
+            FB.api('/me/photos','POST',{
+                'url': imageURL,
+                'caption':'#ГотовБоротьсяЗа #IFightFor #КридРокки'
+            },function(r){
+                location.href = 'https://facebook.com/profile.php';
+            })
         };
 
-        $('.take-photo').hide();
+        var postTwitter = function(){
+            loader.show();
 
-        if('FileReader' in window == false || 'FormData' in window == false){
-            $('.user-hashtag').hide();
-            $('.instructions').hide();
-        }
+            $.ajax({
+                method: 'post',
+                url: '/authTwitter',
+                data:{
+                    photo: imageURL
+                },
+                success: function(e){
+                    if(e.url){
+                        location.href = e.url;
+                    }
+                }
+            })
+        };
 
-        $(".user-hashtag").keyup(function() {
+
+        userHashtagInput.keyup(function() {
             this.value = this.value.replace(/[^а-яё]/i, "");
 
             if(this.value.length > 0){
@@ -224,24 +217,17 @@
 
         $(document).on('click tap','.share',function(e){
             e.preventDefault();
+            loader.show();
 
-            $('.buttons').hide();
-            $('.share-buttons').show();
+            VK.Auth.login(function(r){
+                publishImage();
+            },8196);
         });
 
 
         $(document).on('click tap','.share-vk',function(e){
             e.preventDefault();
-
-            VK.Auth.getLoginStatus(function(r){
-                if(r.session){
-                    postVk();
-                }else{
-                    VK.Auth.login(function(r){
-                        postVk();
-                    },8196);
-                }
-            });
+            postVk();
         });
 
         $(document).on('click tap','.share-fb',function(e){
@@ -250,12 +236,10 @@
             FB.getLoginStatus(function(response) {
                 if (response.status === 'connected') {
                     console.log(response);
-
                     postFb();
                 }else{
                     FB.login(function(response){
                         console.log(response);
-
                         postFb();
                     },{scope: 'publish_actions'});
                 }
@@ -264,20 +248,7 @@
 
         $(document).on('click tap','.share-twitter',function(e){
             e.preventDefault();
-            loader.show();
-
-            $.ajax({
-                method: 'post',
-                url: '/authTwitter',
-                data:{
-                    photo: $('.download').attr('href')
-                },
-                success: function(e){
-                    if(e.url){
-                        location.href = e.url;
-                    }
-                }
-            })
+            postTwitter();
         });
 
         $(document).on('change','#photo',function(){
@@ -286,6 +257,7 @@
                 var canvas = document.getElementById('preview-canvas');
                 var context = canvas.getContext('2d');
 
+                context.clearRect(0, 0, canvas.width, canvas.height);
                 reader.readAsDataURL(this.files[0]);
                 reader.onload = function(_file){
                     var image = new Image();
@@ -319,8 +291,6 @@
                                 context.fillStyle = '#000';
                                 context.textAlign = 'center';
                                 context.fillText($('.user-hashtag').val().toUpperCase(),canvas.width / 2,canvas.height - 60);
-
-                                $('.download').attr('href',canvas.toDataURL());
                             };
                         };
                     }
