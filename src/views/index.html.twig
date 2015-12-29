@@ -253,63 +253,72 @@
         });
 
         $(document).on('change','#photo',function(){
+
             if(this.files && this.files[0]){
                 var reader = new FileReader();
                 var canvas = document.getElementById('preview-canvas');
                 var context = canvas.getContext('2d');
+                var h = Hermite.init('worker.js');
 
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 reader.readAsDataURL(this.files[0]);
                 reader.onload = function(_file){
                     var image = new Image();
                     image.src = _file.target.result;
+
                     image.onload = function(){
-                        $('.preview').show();
+                        h.resize({
+                            source: image,
+                            width: image.width / 2,
+                            height: image.height / 2
+                        },function(reszied){
+                            $('.preview').show();
 
-                        var imageRatio = image.width / image.height;
-                        var sourceWidth = 667 * imageRatio;
-                        var sourceHeight = 667;
-                        var h = Hermite.init('worker.js');
+                            var imageRatio = reszied.width / reszied.height;
+                            var sourceWidth = 667 * imageRatio;
+                            var sourceHeight = 667;
 
-                        context.drawImage(image, -((sourceWidth - canvas.width) / 2),0,sourceWidth,sourceHeight);
 
-                        var exampleHashTag = new Image();
-                        exampleHashTag.src = '/img/example.hashtag.png';
+                            context.drawImage(reszied, -((sourceWidth - canvas.width) / 2),0,sourceWidth,sourceHeight);
 
-                        exampleHashTag.onload = function(){
-                            h.resize({
-                                source: exampleHashTag,
-                                width: exampleHashTag.width / 2,
-                                height: exampleHashTag.height / 2
-                            },function(output) {
-                                exampleHashTag = output;
+                            var exampleHashTag = new Image();
+                            exampleHashTag.src = '/img/example.hashtag.png';
 
-                                context.drawImage(exampleHashTag,(canvas.width - exampleHashTag.width) / 2,canvas.height - exampleHashTag.height - 100);
+                            exampleHashTag.onload = function(){
+                                h.resize({
+                                    source: exampleHashTag,
+                                    width: exampleHashTag.width / 2,
+                                    height: exampleHashTag.height / 2
+                                },function(output) {
+                                    exampleHashTag = output;
 
-                                context.font = "32px pf_din_text_cond_probold";
-                                context.fillStyle = '#9e040c';
-                                context.fillText("# ГотовБоротьсяЗа",(canvas.width - exampleHashTag.width) / 2 + 25,canvas.height - exampleHashTag.height - 60);
+                                    context.drawImage(exampleHashTag,(canvas.width - exampleHashTag.width) / 2,canvas.height - exampleHashTag.height - 100);
 
-                                var userHashTag = new Image();
-                                userHashTag.src = '/img/example.hashtag.png';
+                                    context.font = "32px pf_din_text_cond_probold";
+                                    context.fillStyle = '#9e040c';
+                                    context.fillText("# ГотовБоротьсяЗа",(canvas.width - exampleHashTag.width) / 2 + 25,canvas.height - exampleHashTag.height - 60);
 
-                                userHashTag.onload = function(){
-                                    h.resize({
-                                        source: userHashTag,
-                                        width: userHashTag.width / 2,
-                                        height: userHashTag.height / 2
-                                    },function(output){
-                                        userHashTag = output;
-                                        context.drawImage(userHashTag,(canvas.width - userHashTag.width) / 2,canvas.height - userHashTag.height - 25);
+                                    var userHashTag = new Image();
+                                    userHashTag.src = '/img/example.hashtag.png';
 
-                                        context.font = "32px pf_din_text_cond_probold";
-                                        context.fillStyle = '#000';
-                                        context.textAlign = 'center';
-                                        context.fillText($('.user-hashtag').val().toUpperCase(),canvas.width / 2,canvas.height - 40);
-                                    });
-                                };
-                            });
-                        };
+                                    userHashTag.onload = function(){
+                                        h.resize({
+                                            source: userHashTag,
+                                            width: userHashTag.width / 2,
+                                            height: userHashTag.height / 2
+                                        },function(output){
+                                            userHashTag = output;
+                                            context.drawImage(userHashTag,(canvas.width - userHashTag.width) / 2,canvas.height - userHashTag.height - 25);
+
+                                            context.font = "32px pf_din_text_cond_probold";
+                                            context.fillStyle = '#000';
+                                            context.textAlign = 'center';
+                                            context.fillText($('.user-hashtag').val().toUpperCase(),canvas.width / 2,canvas.height - 40);
+                                        });
+                                    };
+                                });
+                            };
+                        });
                     }
                 };
             }
