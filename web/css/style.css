@@ -320,7 +320,7 @@ html body .main .bottom {
   width: 100%;
   position: absolute;
   bottom: 0;
-  height: 200rem;
+  height: 240rem;
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+27,1+100 */
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+99&0+19,1+68,1+68 */
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+99&0+0,1+78 */
@@ -335,25 +335,25 @@ html body .main .bottom {
 }
 html body .main .bottom .example-hashtag {
   font-family: pf_din_text_cond_probold;
-  font-size: 28rem;
+  font-size: 42rem;
   color: #9e040c;
   background-image: url('/img/example.hashtag.png');
   background-size: cover;
   margin: 0 auto;
-  width: 239rem;
-  height: 40rem;
+  width: 358rem;
+  height: 55rem;
   text-align: center;
-  padding: 5rem 0 0 0;
+  padding: 10rem 0 0 0;
 }
 html body .main .bottom .user-hashtag {
   font-family: pf_din_text_cond_probold;
-  font-size: 28rem;
+  font-size: 45rem;
   color: #000;
   background: url('/img/user.hashtag.png');
   background-size: cover;
   margin: 10rem auto;
-  width: 300rem;
-  height: 50rem;
+  width: 420rem;
+  height: 65rem;
   text-align: center;
   display: block;
   text-transform: uppercase;
@@ -364,7 +364,7 @@ html body .main .bottom .user-hashtag:active {
 }
 html body .main .bottom .instructions {
   font-family: pf_din_text_cond_probold;
-  font-size: 20rem;
+  font-size: 25rem;
   background-image: url('/img/button.bg.png');
   background-size: cover;
   text-transform: uppercase;
@@ -372,12 +372,12 @@ html body .main .bottom .instructions {
   padding: 8rem 20rem;
   cursor: pointer;
   margin: 0 auto;
-  width: 140rem;
+  width: 165rem;
 }
 html body .main .bottom .take-photo {
   display: block;
   font-family: pf_din_text_cond_probold;
-  font-size: 20rem;
+  font-size: 25rem;
   background-image: url('/img/button.bg.png');
   background-size: cover;
   text-transform: uppercase;
@@ -385,7 +385,7 @@ html body .main .bottom .take-photo {
   padding: 8rem 20rem;
   cursor: pointer;
   margin: 0 auto;
-  width: 185rem;
+  width: 225rem;
 }
 html body .main .bottom .take-photo input {
   visibility: hidden;
@@ -411,9 +411,9 @@ html body .main .bottom .footer ul li {
 }
 html body .main .bottom .footer ul li a {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-  font-size: 6rem;
+  font-size: 8rem;
   color: #fff;
-  opacity: 0.5;
+  opacity: 0.7;
   text-transform: uppercase;
   text-decoration: none;
 }
