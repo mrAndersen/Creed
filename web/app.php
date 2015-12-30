@@ -6,6 +6,9 @@ CONST CONSUMER_KEY              = 'huuk0VGzJfY5bSOWwCPS0qGrp';
 CONST CONSUMER_SECRET           = 'db3FSPFqMT8ckyCXhLtxd9pvEcN3lsUud0I9mGudfakVumNIWC';
 CONST TWITTER_OAUTH_ENDPOINT    = 'http://creed.unrealcode.ru/shareTwitter';
 
+CONST VK_APP_ID         = '5200246';
+CONST VK_APP_SECRET     = 'Tl9BUZazmEUvj8DFcCsw';
+
 $app = new \Slim\Slim(['debug' => true]);
 
 $app->get('/', function(){
@@ -22,33 +25,56 @@ $app->get('/', function(){
 
 
 
-$app->post('/vkPostImage',function(){
+$app->post('/sendVkImage',function(){
     $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
 
-    $photo  = $request->request->get('photo');
-    $url    = $request->request->get('url');
+    $imageURL   = $request->request->get('imageURL');
+    $token      = $request->request->get('token');
 
-    $helper  = new \Helper\Helper();
-    $name   = $helper->convertBase64ToTmpFile($photo);
+    $vk = new \VK\VK(VK_APP_ID,VK_APP_SECRET,$token['sid']);
+    $uploadServerResponse = $vk->api('photos.getWallUploadServer',[]);
 
-    try{
+    if($uploadServerResponse['response']['upload_url']){
+
         $client = new \GuzzleHttp\Client();
-        $response = $client->request('POST',$url,[
+        $response = $client->request('POST',$uploadServerResponse['response']['upload_url'],[
             'multipart' => [
                 [
                     'name' => 'photo',
-                    'contents' => fopen($name,'r')
+                    'contents' => fopen($imageURL,'r')
                 ]
             ]
         ]);
 
-        $helper->removeTmpFile($name);
+        $response = json_decode($response->getBody()->__toString(),true);
 
-    }catch (\Exception $e){
-        $helper->removeTmpFile($name);
+        $wallAddResponse = $vk->api('photos.saveWallPhoto',[
+            'server' => $response['server'],
+            'photo' => $response['photo'],
+            'hash' => $response['hash']
+        ]);
+
+        if($wallAddResponse['response'][0]){
+
+            $response = new \Symfony\Component\HttpFoundation\JsonResponse([
+                'vkImageId' => $wallAddResponse['response'][0]['id']
+            ]);
+            $response->send();
+        }
     }
+});
 
-    $response = new \Symfony\Component\HttpFoundation\JsonResponse(json_decode($response->getBody()->__toString(),true));
+
+$app->post('/postImage',function(){
+    $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
+
+    $photo  = $request->request->get('photo');
+
+    $helper  = new \Helper\Helper();
+    $name   = $helper->convertBase64ToTmpFile($photo);
+    $url = $request->getScheme() . '://' . $request->getHost() . '/share/'. $name;
+
+    $response = new \Symfony\Component\HttpFoundation\JsonResponse(['url' => $url]);
     $response->send();
 });
 

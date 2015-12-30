@@ -92,43 +92,26 @@
         }
 
         var publishImage = function(){
-            VK.Api.call('photos.getWallUploadServer', {}, function (r1) {
-                if (r1.response.upload_url) {
-                    try {
-                        var imageData = document.getElementById('preview-canvas').toDataURL();
+            var imageData = document.getElementById('preview-canvas').toDataURL();
 
-                        $.ajax({
-                            url: '/vkPostImage',
-                            method: 'post',
-                            data: {
-                                photo: imageData,
-                                url: r1.response.upload_url
-                            },
-                            cache: false,
-                            success: function (e) {
-                                var uploadResult = e;
-                                VK.Api.call('photos.saveWallPhoto', {
-                                    photo: uploadResult.photo,
-                                    server: uploadResult.server,
-                                    hash: uploadResult.hash
-                                }, function (r2) {
-                                    loader.hide();
+            $.ajax({
+                url: '/postImage',
+                method: 'post',
+                data: {
+                    photo: imageData
+                },
+                success: function(e){
+                    imageURL = e.url;
 
-                                    imageVkId = r2.response[0].id;
-                                    imageURL  = r2.response[0].src_big;
+                    $('.download').attr('href',imageURL);
 
-                                    $('.download').attr('href',imageURL);
+                    $('.buttons').hide();
+                    $('.share-buttons').show();
 
-                                    $('.buttons').hide();
-                                    $('.share-buttons').show();
-                                })
-                            },
-                            error: function (e) {
+                    loader.hide();
+                },
+                error: function (e) {
 
-                            }
-                        });
-                    } catch (e) {
-                    }
                 }
             });
         };
@@ -142,7 +125,7 @@
                 'attachments': imageVkId
             },function(r3){
                 location.href = 'https://vk.com';
-            })
+            });
         };
 
         var postFb = function(){
@@ -214,17 +197,44 @@
 
         $(document).on('click tap','.share',function(e){
             e.preventDefault();
-            loader.show();
 
-            VK.Auth.login(function(r){
-                publishImage();
-            },8196);
+            publishImage();
+            loader.show();
         });
 
 
-        $(document).on('click tap','.share-vk',function(e){
+        $(document).on('click tap','.actually-share-vk',function(e){
             e.preventDefault();
             postVk();
+        });
+
+        $(document).on('click tap','.share-vk',function(e){
+            e.preventDefault();
+
+            VK.Auth.login(function(r){
+                if(r.session){
+                    $.ajax({
+                        url: '/sendVkImage',
+                        method: 'post',
+                        data: {
+                            imageURL: imageURL,
+                            token: r.session
+                        },
+                        success: function(e){
+                            $('.actually-share-vk').css('display','inline-block');
+
+                            $('.share-vk').hide();
+                            $('.share-fb').hide();
+                            $('.share-twitter').hide();
+
+                            imageVkId = e.vkImageId;
+                        },
+                        error: function (e) {
+
+                        }
+                    });
+                }
+            },8196);
         });
 
         $(document).on('click tap','.share-fb',function(e){
@@ -392,6 +402,8 @@
     </div>
     <div class="share-buttons">
         <a href="" data-type="vk" class="social-share share-vk"></a>
+        <a href="" class="social-share actually-share-vk"></a>
+
         <a href="" data-type="fb" class="social-share share-fb"></a>
         <a href="" data-type="twitter" class="social-share share-twitter"></a>
     </div>

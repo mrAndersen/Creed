@@ -128,6 +128,11 @@ html body .preview .share-buttons a {
   margin: 10rem 10rem;
   background-size: cover;
 }
+html body .preview .buttons .actually-share-vk,
+html body .preview .share-buttons .actually-share-vk {
+  display: none;
+  background-image: url('/img/share.vk.png');
+}
 html body .preview .buttons .reload,
 html body .preview .share-buttons .reload {
   background-image: url('/img/reload.png');

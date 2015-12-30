@@ -7,12 +7,12 @@ use Intervention\Image\ImageManagerStatic;
 class Helper {
     public function convertBase64ToTmpFile($rawBase64)
     {
-        $name       = time().mt_rand(0,999999999).'.png';
+        $name       = time().'_'.mt_rand(0,999999999).'.png';
         $photo      = ImageManagerStatic::make($rawBase64);
 
         $photo->widen($photo->width() / 1.5);
         $photo->encode('png');
-        $photo->save($name);
+        $photo->save('share/'.$name);
         return $name;
     }
 
