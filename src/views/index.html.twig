@@ -264,24 +264,21 @@
                 loadImage.parseMetaData(file,function(data){
                     if(data.exif){
                         orientation = data.exif.get('Orientation');
-                        console.log(orientation);
+                        alert(orientation);
                     }else{
                         orientation = 1;
                     }
 
                     loadImage(
                             e.target.files[0],
-                            function(_canvas){
+                            function(canvas){
                                 var preview = $('.preview');
 
-                                $(_canvas).attr('id','preview-canvas');
-                                preview.prepend(_canvas);
+                                $(canvas).attr('id','preview-canvas');
+                                preview.prepend(canvas);
 
-
-                                var canvas  = document.getElementById('preview-canvas');
                                 var context = canvas.getContext('2d');
                                 var exampleHashTag = new Image();
-
                                 exampleHashTag.src = '/img/example.hashtag.png';
 
                                 exampleHashTag.onload = function(){
