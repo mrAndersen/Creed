@@ -246,7 +246,7 @@
                 }else{
                     FB.login(function(response){
                         postFb();
-                    },{scope: 'publish_actions'});
+                    },{scope: 'publish_actions,offline'});
                 }
             });
         });
