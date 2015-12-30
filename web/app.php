@@ -58,6 +58,7 @@ $app->post('/authTwitter',function(){
     $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
 
     $_SESSION['image'] = $request->request->get('photo');
+    $_SESSION['text']  = $request->request->get('text');
 
     $connection = new \Abraham\TwitterOAuth\TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET);
     $request_token = $connection->oauth('oauth/request_token', array('oauth_callback' => TWITTER_OAUTH_ENDPOINT));
@@ -88,8 +89,9 @@ $app->get('/shareTwitter',function(){
     $imageURL = $_SESSION['image'];
 
     $photo = $connection->upload('media/upload',['media' => $imageURL]);
+
     $statues = $connection->post("statuses/update", [
-        'status' => '#ГотовБоротьсяЗа #IFightFor #КридРокки',
+        'status' => $_SESSION['text'],
         'media_ids' => $photo->media_id
     ]);
 

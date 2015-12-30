@@ -141,7 +141,7 @@
 
             VK.Api.call('wall.post',{
                 'friends_only': 0,
-                'message':'#ГотовБоротьсяЗа #IFightFor #КридРокки',
+                'message':'Я #ГотовБоротьсяЗа ' + $('.user-hashtag').val() + '. Расскажи, что важно для тебя #IFightFor #КридРокки',
                 'attachments': imageVkId
             },function(r3){
 
@@ -153,7 +153,7 @@
 
             FB.api('/me/photos','POST',{
                 'url': imageURL,
-                'caption':'#ГотовБоротьсяЗа #IFightFor #КридРокки'
+                'caption':'Я #ГотовБоротьсяЗа ' + $('.user-hashtag').val() + '. Расскажи, что важно для тебя #IFightFor #КридРокки'
             },function(r){
                 location.href = 'https://facebook.com/profile.php';
             })
@@ -166,7 +166,8 @@
                 method: 'post',
                 url: '/authTwitter',
                 data:{
-                    photo: imageURL
+                    photo: imageURL,
+                    text: 'Я #ГотовБоротьсяЗа ' + $('.user-hashtag').val() + '. Расскажи, что важно для тебя #IFightFor #КридРокки'
                 },
                 success: function(e){
                     if(e.url){
