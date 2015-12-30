@@ -271,25 +271,25 @@
 
                     loadImage(
                             e.target.files[0],
-                            function(canvas){
+                            function(_canvas){
                                 var preview = $('.preview');
 
-                                $(canvas).attr('id','preview-canvas');
-                                preview.prepend(canvas);
+                                $(_canvas).attr('id','preview-canvas');
+                                preview.prepend(_canvas);
 
+
+                                var canvas  = document.getElementById('preview-canvas');
                                 var context = canvas.getContext('2d');
                                 var exampleHashTag = new Image();
+
                                 exampleHashTag.src = '/img/example.hashtag.png';
 
-//
                                 exampleHashTag.onload = function(){
                                     context.drawImage(
                                             exampleHashTag,
                                             parseInt((canvas.width - exampleHashTag.width) / 2),
                                             canvas.height - exampleHashTag.height - 100
                                     );
-
-//                                    alert([parseInt((canvas.width - exampleHashTag.width) / 2),canvas.height - exampleHashTag.height - 100].join(','));
 
                                     context.font = "32px pf_din_text_cond_probold";
                                     context.fillStyle = '#9e040c';
@@ -323,7 +323,8 @@
                                 minHeight: 667,
                                 canvas: true,
                                 cover: true,
-                                crop: true
+                                crop: true,
+                                orientation: orientation
                             }
                     );
                 });
