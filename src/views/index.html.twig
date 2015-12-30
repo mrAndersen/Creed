@@ -144,7 +144,8 @@
                 'message':'Я #ГотовБоротьсяЗа ' + $('.user-hashtag').val() + '. Расскажи, что важно для тебя #IFightFor #КридРокки',
                 'attachments': imageVkId
             },function(r3){
-
+                console.log(r3);
+                location.href = 'https://vk.com';
             })
         };
 
@@ -271,6 +272,7 @@
                     loadImage(
                             e.target.files[0],
                             function(canvas){
+                                debugger;
                                 var preview = $('.preview');
 
                                 $(canvas).attr('id','preview-canvas');
