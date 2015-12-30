@@ -252,6 +252,24 @@
             postTwitter();
         });
 
+        function cloneCanvas(oldCanvas)
+        {
+            //create a new canvas
+            var newCanvas = document.createElement('canvas');
+            var context = newCanvas.getContext('2d');
+
+            //set dimensions
+            newCanvas.width = oldCanvas.width;
+            newCanvas.height = oldCanvas.height;
+
+            //apply the old canvas to the new one
+            context.drawImage(oldCanvas, 0, 0);
+
+            //return the new canvas
+            return newCanvas;
+        }
+
+
         $(document).on('change','#photo',function(e){
             if(e.target.files && e.target.files[0]){
                 loader.show();
@@ -271,18 +289,15 @@
 
                     loadImage(
                             e.target.files[0],
-                            function(canvas){
+                            function(_canvas){
                                 var preview = $('.preview');
+                                var canvas = cloneCanvas(_canvas);
 
                                 $(canvas).attr('id','preview-canvas');
                                 preview.prepend(canvas);
 
                                 var context = canvas.getContext('2d');
                                 var exampleHashTag = new Image();
-
-                                if(orientation == 6){
-                                    context.transform(0, 1, -1, 0, canvas.height , 0);
-                                }
 
                                 exampleHashTag.src = '/img/example.hashtag.png';
                                 exampleHashTag.onload = function(){
