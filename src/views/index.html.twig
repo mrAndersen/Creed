@@ -114,8 +114,6 @@
                                 }, function (r2) {
                                     loader.hide();
 
-                                    console.log(r2);
-
                                     imageVkId = r2.response[0].id;
                                     imageURL  = r2.response[0].src_big;
 
@@ -126,11 +124,10 @@
                                 })
                             },
                             error: function (e) {
-                                console.log(e);
+
                             }
                         });
                     } catch (e) {
-                        console.log(e);
                     }
                 }
             });
@@ -144,7 +141,6 @@
                 'message':'Я #ГотовБоротьсяЗа ' + $('.user-hashtag').val() + '. Расскажи, что важно для тебя #IFightFor #КридРокки',
                 'attachments': imageVkId
             },function(r3){
-                console.log(r3);
                 location.href = 'https://vk.com';
             })
         };
@@ -236,11 +232,9 @@
 
             FB.getLoginStatus(function(response) {
                 if (response.status === 'connected') {
-                    console.log(response);
                     postFb();
                 }else{
                     FB.login(function(response){
-                        console.log(response);
                         postFb();
                     },{scope: 'publish_actions'});
                 }
@@ -282,7 +276,6 @@
                 loadImage.parseMetaData(file,function(data){
                     if(data.exif){
                         orientation = data.exif.get('Orientation');
-                        alert(orientation);
                     }else{
                         orientation = 1;
                     }
