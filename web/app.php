@@ -6,8 +6,8 @@ CONST CONSUMER_KEY              = 'huuk0VGzJfY5bSOWwCPS0qGrp';
 CONST CONSUMER_SECRET           = 'db3FSPFqMT8ckyCXhLtxd9pvEcN3lsUud0I9mGudfakVumNIWC';
 CONST TWITTER_OAUTH_ENDPOINT    = 'http://creed.unrealcode.ru/shareTwitter';
 
-CONST VK_APP_ID         = '5200246';
-CONST VK_APP_SECRET     = 'Tl9BUZazmEUvj8DFcCsw';
+//CONST VK_APP_ID         = '5200246';
+//CONST VK_APP_SECRET     = 'AbgwTl9BUZazmEUvj8DFcCsw';
 
 $app = new \Slim\Slim(['debug' => true]);
 
@@ -29,39 +29,21 @@ $app->post('/sendVkImage',function(){
     $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
 
     $imageURL   = $request->request->get('imageURL');
-    $token      = $request->request->get('token');
+    $postURL    = $request->request->get('postURL');
 
-    $vk = new \VK\VK(VK_APP_ID,VK_APP_SECRET,$token['sid']);
-    $uploadServerResponse = $vk->api('photos.getWallUploadServer',[]);
+    $client = new \GuzzleHttp\Client();
 
-    if(isset($uploadServerResponse['response']['upload_url'])){
-        $client = new \GuzzleHttp\Client();
-        $response = $client->request('POST',$uploadServerResponse['response']['upload_url'],[
-            'multipart' => [
-                [
-                    'name' => 'photo',
-                    'contents' => fopen($imageURL,'r')
-                ]
+    $response = $client->request('POST',$postURL,[
+        'multipart' => [
+            [
+                'name' => 'photo',
+                'contents' => fopen($imageURL,'r')
             ]
-        ]);
+        ]
+    ]);
 
-        $response = json_decode($response->getBody()->__toString(),true);
-
-        $wallAddResponse = $vk->api('photos.saveWallPhoto',[
-            'server' => $response['server'],
-            'photo' => $response['photo'],
-            'hash' => $response['hash']
-        ]);
-
-        if($wallAddResponse['response'][0]){
-            $response = new \Symfony\Component\HttpFoundation\JsonResponse([
-                'vkImageId' => $wallAddResponse['response'][0]['id']
-            ]);
-            $response->send();
-        }
-    }else{
-        var_dump($uploadServerResponse);
-    }
+    $response = new \Symfony\Component\HttpFoundation\JsonResponse(json_decode($response->getBody()->__toString(),true));
+    $response->send();
 });
 
 

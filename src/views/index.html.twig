@@ -124,7 +124,11 @@
                 'message':'Я #ГотовБоротьсяЗа ' + $('.user-hashtag').val() + '. Расскажи, что важно для тебя #IFightFor #КридРокки',
                 'attachments': imageVkId
             },function(r3){
-                location.href = 'https://vk.com';
+                if(r3.response){
+                    location.href = 'https://vk.com';
+                }else{
+                    loader.hide();
+                }
             });
         };
 
@@ -210,31 +214,44 @@
 
         $(document).on('click tap','.share-vk',function(e){
             e.preventDefault();
+            loader.show();
 
             VK.Auth.login(function(r){
                 if(r.session){
-                    $.ajax({
-                        url: '/sendVkImage',
-                        method: 'post',
-                        data: {
-                            imageURL: imageURL,
-                            token: r.session
-                        },
-                        success: function(e){
-                            $('.actually-share-vk').css('display','inline-block');
+                    VK.Api.call('photos.getWallUploadServer',{},function(r2){
 
-                            $('.share-vk').hide();
-                            $('.share-fb').hide();
-                            $('.share-twitter').hide();
+                        $.ajax({
+                            url: '/sendVkImage',
+                            method: 'post',
+                            data: {
+                                imageURL: imageURL,
+                                postURL: r2.response.upload_url
+                            },
+                            success: function(e){
+                                VK.Api.call('photos.saveWallPhoto',{
+                                    'photo': e.photo,
+                                    'server': e.server,
+                                    'hash': e.hash
+                                },function(r3){
+                                    imageVkId = r3.response[0].id;
 
-                            imageVkId = e.vkImageId;
-                        },
-                        error: function (e) {
+                                    $('.actually-share-vk').css('display','inline-block');
 
-                        }
+                                    $('.share-vk').hide();
+                                    $('.share-fb').hide();
+                                    $('.share-twitter').hide();
+
+                                    loader.hide();
+                                });
+                            },
+                            error: function (e) {
+
+                            }
+                        });
+
                     });
                 }
-            },8192 + 4 + 65536);
+            },8192 + 4);
         });
 
         $(document).on('click tap','.share-fb',function(e){
