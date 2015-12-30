@@ -234,7 +234,7 @@
                         }
                     });
                 }
-            },8196);
+            },8192 + 4 + 65536);
         });
 
         $(document).on('click tap','.share-fb',function(e){
@@ -246,7 +246,7 @@
                 }else{
                     FB.login(function(response){
                         postFb();
-                    },{scope: 'publish_actions,offline'});
+                    },{scope: 'publish_actions'});
                 }
             });
         });
