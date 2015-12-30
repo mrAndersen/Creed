@@ -272,7 +272,6 @@
                     loadImage(
                             e.target.files[0],
                             function(canvas){
-                                debugger;
                                 var preview = $('.preview');
 
                                 $(canvas).attr('id','preview-canvas');
@@ -281,6 +280,8 @@
                                 var context = canvas.getContext('2d');
                                 var exampleHashTag = new Image();
                                 exampleHashTag.src = '/img/example.hashtag.png';
+
+                                alert([canvas.width,canvas.height].join(','));
 
                                 exampleHashTag.onload = function(){
                                     context.drawImage(exampleHashTag,(canvas.width - exampleHashTag.width) / 2,canvas.height - exampleHashTag.height - 100);
