@@ -281,10 +281,14 @@
                                 var exampleHashTag = new Image();
                                 exampleHashTag.src = '/img/example.hashtag.png';
 
-                                alert([canvas.width,canvas.height].join(','));
+//                                alert([canvas.width,canvas.height].join(','));
 
                                 exampleHashTag.onload = function(){
-                                    context.drawImage(exampleHashTag,(canvas.width - exampleHashTag.width) / 2,canvas.height - exampleHashTag.height - 100);
+                                    context.drawImage(
+                                            exampleHashTag,
+                                            parseInt((canvas.width - exampleHashTag.width) / 2),
+                                            canvas.height - exampleHashTag.height - 100
+                                    );
 
                                     context.font = "32px pf_din_text_cond_probold";
                                     context.fillStyle = '#9e040c';
@@ -294,7 +298,11 @@
                                     userHashTag.src = '/img/example.hashtag.png';
 
                                     userHashTag.onload = function(){
-                                        context.drawImage(userHashTag,(canvas.width - userHashTag.width) / 2,canvas.height - userHashTag.height - 25);
+                                        context.drawImage(
+                                                userHashTag,
+                                                parseInt((canvas.width - userHashTag.width) / 2),
+                                                canvas.height - userHashTag.height - 25
+                                        );
 
                                         context.font = "32px pf_din_text_cond_probold";
                                         context.fillStyle = '#000';
