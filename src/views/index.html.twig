@@ -279,8 +279,12 @@
 
                                 var context = canvas.getContext('2d');
                                 var exampleHashTag = new Image();
-                                exampleHashTag.src = '/img/example.hashtag.png';
 
+                                if(orientation == 6){
+                                    context.transform(0, 1, -1, 0, height , 0);
+                                }
+
+                                exampleHashTag.src = '/img/example.hashtag.png';
                                 exampleHashTag.onload = function(){
                                     context.drawImage(
                                             exampleHashTag,
