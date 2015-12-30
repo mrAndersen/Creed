@@ -261,15 +261,9 @@
         $(document).on('click tap','.share-fb',function(e){
             e.preventDefault();
 
-            FB.getLoginStatus(function(response) {
-                if (response.status === 'connected') {
-                    postFb();
-                }else{
-                    FB.login(function(response){
-                        postFb();
-                    },{scope: 'publish_actions'});
-                }
-            });
+            FB.login(function(response){
+                postFb();
+            },{scope: 'publish_actions'});
         });
 
         $(document).on('click tap','.share-twitter',function(e){
