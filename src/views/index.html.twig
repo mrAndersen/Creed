@@ -281,7 +281,7 @@
                                 var exampleHashTag = new Image();
                                 exampleHashTag.src = '/img/example.hashtag.png';
 
-//                                alert([canvas.width,canvas.height].join(','));
+//
 
                                 exampleHashTag.onload = function(){
                                     context.drawImage(
@@ -289,6 +289,8 @@
                                             parseInt((canvas.width - exampleHashTag.width) / 2),
                                             canvas.height - exampleHashTag.height - 100
                                     );
+
+                                    alert([parseInt((canvas.width - exampleHashTag.width) / 2),canvas.height - exampleHashTag.height - 100);
 
                                     context.font = "32px pf_din_text_cond_probold";
                                     context.fillStyle = '#9e040c';
