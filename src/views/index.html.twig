@@ -257,7 +257,6 @@
                 $('#preview-canvas').remove();
 
                 var file = e.target.files[0];
-                var h = Hermite.init('worker.js');
                 var orientation;
 
                 loadImage.parseMetaData(file,function(data){
@@ -281,42 +280,27 @@
                                 exampleHashTag.src = '/img/example.hashtag.png';
 
                                 exampleHashTag.onload = function(){
-                                    h.resize({
-                                        source: exampleHashTag,
-                                        width: exampleHashTag.width / 2,
-                                        height: exampleHashTag.height / 2
-                                    },function(output) {
-                                        exampleHashTag = output;
+                                    context.drawImage(exampleHashTag,(canvas.width - exampleHashTag.width) / 2,canvas.height - exampleHashTag.height - 100);
 
-                                        context.drawImage(exampleHashTag,(canvas.width - exampleHashTag.width) / 2,canvas.height - exampleHashTag.height - 100);
+                                    context.font = "32px pf_din_text_cond_probold";
+                                    context.fillStyle = '#9e040c';
+                                    context.fillText("# ГотовБоротьсяЗа",(canvas.width - exampleHashTag.width) / 2 + 25,canvas.height - exampleHashTag.height - 60);
+
+                                    var userHashTag = new Image();
+                                    userHashTag.src = '/img/example.hashtag.png';
+
+                                    userHashTag.onload = function(){
+                                        context.drawImage(userHashTag,(canvas.width - userHashTag.width) / 2,canvas.height - userHashTag.height - 25);
 
                                         context.font = "32px pf_din_text_cond_probold";
-                                        context.fillStyle = '#9e040c';
-                                        context.fillText("# ГотовБоротьсяЗа",(canvas.width - exampleHashTag.width) / 2 + 25,canvas.height - exampleHashTag.height - 60);
+                                        context.fillStyle = '#000';
+                                        context.textAlign = 'center';
+                                        context.fillText($('.user-hashtag').val().toUpperCase(),canvas.width / 2,canvas.height - 40);
 
-                                        var userHashTag = new Image();
-                                        userHashTag.src = '/img/example.hashtag.png';
-
-                                        userHashTag.onload = function(){
-                                            h.resize({
-                                                source: userHashTag,
-                                                width: userHashTag.width / 2,
-                                                height: userHashTag.height / 2
-                                            },function(output){
-                                                userHashTag = output;
-                                                context.drawImage(userHashTag,(canvas.width - userHashTag.width) / 2,canvas.height - userHashTag.height - 25);
-
-                                                context.font = "32px pf_din_text_cond_probold";
-                                                context.fillStyle = '#000';
-                                                context.textAlign = 'center';
-                                                context.fillText($('.user-hashtag').val().toUpperCase(),canvas.width / 2,canvas.height - 40);
-
-                                                loader.hide();
-                                                $('.preview').show();
-                                                $('.download').attr('href',canvas.toDataURL());
-                                            });
-                                        };
-                                    });
+                                        loader.hide();
+                                        $('.preview').show();
+                                        $('.download').attr('href',canvas.toDataURL());
+                                    };
                                 };
                             },
                             {
