@@ -34,8 +34,7 @@ $app->post('/sendVkImage',function(){
     $vk = new \VK\VK(VK_APP_ID,VK_APP_SECRET,$token['sid']);
     $uploadServerResponse = $vk->api('photos.getWallUploadServer',[]);
 
-    if($uploadServerResponse['response']['upload_url']){
-
+    if(isset($uploadServerResponse['response']['upload_url'])){
         $client = new \GuzzleHttp\Client();
         $response = $client->request('POST',$uploadServerResponse['response']['upload_url'],[
             'multipart' => [
@@ -55,12 +54,13 @@ $app->post('/sendVkImage',function(){
         ]);
 
         if($wallAddResponse['response'][0]){
-
             $response = new \Symfony\Component\HttpFoundation\JsonResponse([
                 'vkImageId' => $wallAddResponse['response'][0]['id']
             ]);
             $response->send();
         }
+    }else{
+        var_dump($uploadServerResponse);
     }
 });
 
