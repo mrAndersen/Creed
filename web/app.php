@@ -6,9 +6,6 @@ CONST CONSUMER_KEY              = 'huuk0VGzJfY5bSOWwCPS0qGrp';
 CONST CONSUMER_SECRET           = 'db3FSPFqMT8ckyCXhLtxd9pvEcN3lsUud0I9mGudfakVumNIWC';
 CONST TWITTER_OAUTH_ENDPOINT    = 'http://creed.unrealcode.ru/shareTwitter';
 
-//CONST VK_APP_ID         = '5200246';
-//CONST VK_APP_SECRET     = 'AbgwTl9BUZazmEUvj8DFcCsw';
-
 $app = new \Slim\Slim(['debug' => true]);
 
 $app->get('/', function(){
@@ -22,8 +19,6 @@ $app->get('/', function(){
     $response = new \Symfony\Component\HttpFoundation\Response($view);
     $response->send();
 });
-
-
 
 $app->post('/sendVkImage',function(){
     $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
@@ -46,7 +41,6 @@ $app->post('/sendVkImage',function(){
     $response->send();
 });
 
-
 $app->post('/postImage',function(){
     $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
 
@@ -59,7 +53,6 @@ $app->post('/postImage',function(){
     $response = new \Symfony\Component\HttpFoundation\JsonResponse(['url' => $url]);
     $response->send();
 });
-
 
 $app->post('/authTwitter',function(){
     session_start();
@@ -77,7 +70,6 @@ $app->post('/authTwitter',function(){
     $response = new \Symfony\Component\HttpFoundation\JsonResponse(['url' => $authURL]);
     $response->send();
 });
-
 
 $app->get('/shareTwitter',function(){
     session_start();
@@ -106,19 +98,6 @@ $app->get('/shareTwitter',function(){
     $response = new \Symfony\Component\HttpFoundation\RedirectResponse('https://twitter.com');
     $response->send();
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 $app->run();
 
