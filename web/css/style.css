@@ -262,6 +262,7 @@ html body .main .creators-list {
   bottom: 0;
   z-index: 7;
   display: none;
+  cursor: pointer;
 }
 html body .main .creators-list:after {
   content: '\00d7';
