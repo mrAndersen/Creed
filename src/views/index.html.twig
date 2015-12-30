@@ -139,7 +139,11 @@
                 'url': imageURL,
                 'caption':'Я #ГотовБоротьсяЗа ' + $('.user-hashtag').val() + '. Расскажи, что важно для тебя #IFightFor #КридРокки'
             },function(r){
-                location.href = 'https://facebook.com/profile.php';
+                if(r.error){
+                    loader.hide();
+                }else{
+                    location.href = 'https://facebook.com/profile.php';
+                }
             })
         };
 
