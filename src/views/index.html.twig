@@ -8,6 +8,13 @@
     <title>Крид: Наследие Рокки – Расскажи о своем кредо</title>
     <meta name="keywords" content="кино, спорт, бокс, Рокки, Рокки Бальбоа, Крид Наследие Рокки, Крид, фильм, фильмы 2016">
 
+    <meta property="og:url"           content="http://creed.unrealcode.ru" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="Я #ГотовБоротьсяЗа" />
+    <meta property="og:description"   content="Крид: Наследие Рокки – Расскажи о своем кредо" />
+    <meta property="og:image"         content="http://creed.unrealcode.ru/img/bg.png" />
+    <meta property="fb:app_id"        content="1536863159967920" />
+
     <link rel="stylesheet" href="/css/style.css">
 
     <script src="/js/jquery.min.js"></script>
@@ -133,19 +140,28 @@
         };
 
         var postFb = function(){
-            loader.show();
+            $("meta[property='og\\:image']").attr("content", imageURL);
 
-            FB.api('/me/photos','POST',{
-                'url': imageURL,
-                'caption':'Я #ГотовБоротьсяЗа ' + $('.user-hashtag').val() + '. Расскажи, что важно для тебя #IFightFor #КридРокки'
-            },function(r){
-                alert(JSON.stringify(r));
-                if(r.error){
-                    loader.hide();
-                }else{
-                    location.href = 'https://facebook.com/profile.php';
-                }
-            })
+            FB.ui({
+                method: 'share',
+                href: 'http://creed.unrealcode.ru',
+                caption: 'Я #ГотовБоротьсяЗа ' + $('.user-hashtag').val()
+            }, function(r){
+                console.log(r);
+
+            });
+
+//            FB.api('/me/photos','POST',{
+//                'url': imageURL,
+//                'caption':'Я #ГотовБоротьсяЗа ' + $('.user-hashtag').val() + '. Расскажи, что важно для тебя #IFightFor #КридРокки'
+//            },function(r){
+//                alert(JSON.stringify(r));
+//                if(r.error){
+//                    loader.hide();
+//                }else{
+//                    location.href = 'https://facebook.com/profile.php';
+//                }
+//            })
         };
 
         var postTwitter = function(){
@@ -262,9 +278,11 @@
         $(document).on('click tap','.share-fb',function(e){
             e.preventDefault();
 
-            FB.login(function(response){
-                postFb();
-            },{scope: 'publish_actions'});
+            postFb();
+
+//            FB.login(function(response){
+//
+//            },{scope: 'publish_actions'});
         });
 
         $(document).on('click tap','.share-twitter',function(e){
