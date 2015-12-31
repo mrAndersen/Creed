@@ -392,6 +392,7 @@ html body .main .bottom .take-photo {
   padding: 8rem 20rem;
   cursor: pointer;
   margin: 0 auto;
+  text-align: center;
   width: 225rem;
 }
 html body .main .bottom .take-photo input {
