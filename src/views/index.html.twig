@@ -139,6 +139,7 @@
                 'url': imageURL,
                 'caption':'Я #ГотовБоротьсяЗа ' + $('.user-hashtag').val() + '. Расскажи, что важно для тебя #IFightFor #КридРокки'
             },function(r){
+                alert(r);
                 if(r.error){
                     loader.hide();
                 }else{
