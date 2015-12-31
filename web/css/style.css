@@ -378,6 +378,7 @@ html body .main .bottom .instructions {
   padding: 8rem 20rem;
   cursor: pointer;
   margin: 0 auto;
+  text-align: center;
   width: 165rem;
 }
 html body .main .bottom .take-photo {
