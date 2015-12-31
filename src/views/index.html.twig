@@ -145,8 +145,6 @@
         };
 
         var postFb = function(){
-            $("meta[property='og\\:image']").attr("content", imageURL);
-
             FB.ui({
                 method: 'share',
                 href: 'http://creed.unrealcode.ru',
