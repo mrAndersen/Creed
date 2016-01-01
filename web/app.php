@@ -4,7 +4,7 @@ require_once('../vendor/autoload.php');
 
 CONST CONSUMER_KEY              = 'huuk0VGzJfY5bSOWwCPS0qGrp';
 CONST CONSUMER_SECRET           = 'db3FSPFqMT8ckyCXhLtxd9pvEcN3lsUud0I9mGudfakVumNIWC';
-CONST TWITTER_OAUTH_ENDPOINT    = 'http://creed.unrealcode.ru/shareTwitter';
+CONST TWITTER_OAUTH_ENDPOINT    = 'http://ifightfor.warner-films.ru/shareTwitter';
 
 $app = new \Slim\Slim(['debug' => true]);
 
