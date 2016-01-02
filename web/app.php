@@ -6,7 +6,7 @@ CONST CONSUMER_KEY              = 'huuk0VGzJfY5bSOWwCPS0qGrp';
 CONST CONSUMER_SECRET           = 'db3FSPFqMT8ckyCXhLtxd9pvEcN3lsUud0I9mGudfakVumNIWC';
 CONST TWITTER_OAUTH_ENDPOINT    = 'http://creedifightfor.warner-films.ru//shareTwitter';
 
-$app = new \Slim\Slim(['debug' => true]);
+$app = new \Slim\Slim();
 
 $app->get('/', function(){
     session_cache_limiter(false);
