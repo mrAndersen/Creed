@@ -144,29 +144,6 @@
             });
         };
 
-        var postFb = function(){
-            FB.ui({
-                method: 'share',
-                href: 'http://creedifightfor.warner-films.ru/',
-                caption: 'Я #ГотовБоротьсяЗа ' + $('.user-hashtag').val()
-            }, function(r){
-                console.log(r);
-
-            });
-
-//            FB.api('/me/photos','POST',{
-//                'url': imageURL,
-//                'caption':'Я #ГотовБоротьсяЗа ' + $('.user-hashtag').val() + '. Расскажи, что важно для тебя #IFightFor #КридРокки'
-//            },function(r){
-//                alert(JSON.stringify(r));
-//                if(r.error){
-//                    loader.hide();
-//                }else{
-//                    location.href = 'https://facebook.com/profile.php';
-//                }
-//            })
-        };
-
         var postTwitter = function(){
             loader.show();
 
@@ -281,11 +258,15 @@
         $(document).on('click tap','.share-fb',function(e){
             e.preventDefault();
 
-            postFb();
+            FB.ui({
+                method: 'feed',
+                link: 'http://creedifightfor.warner-films.ru/',
+                picture: imageURL,
+                caption: 'Я #ГотовБоротьсяЗа ' + $('.user-hashtag').val(),
+                description: 'Расскажи, что важно для тебя #IFightFor #КридРокки'
+            }, function(r){
 
-//            FB.login(function(response){
-//
-//            },{scope: 'publish_actions'});
+            });
         });
 
         $(document).on('click tap','.share-twitter',function(e){
