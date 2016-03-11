@@ -59,22 +59,22 @@ html body .icon {
   margin: 10rem 10rem 0 0;
 }
 html body .icon.youtube {
-  background-image: url('/img/youtube.png');
+  background-image: url('/special/creed/img/youtube.png');
 }
 html body .icon.vk {
-  background-image: url('/img/vk.png');
+  background-image: url('/special/creed/img/vk.png');
 }
 html body .icon.fb {
-  background-image: url('/img/fb.png');
+  background-image: url('/special/creed/img/fb.png');
 }
 html body .icon.twitter {
-  background-image: url('/img/twitter.png');
+  background-image: url('/special/creed/img/twitter.png');
 }
 html body .icon.instagram {
-  background-image: url('/img/instagram.png');
+  background-image: url('/special/creed/img/instagram.png');
 }
 html body .icon.ok {
-  background-image: url('/img/ok.png');
+  background-image: url('/special/creed/img/ok.png');
 }
 html body .overlay {
   width: 100%;
@@ -131,31 +131,31 @@ html body .preview .share-buttons a {
 html body .preview .buttons .actually-share-vk,
 html body .preview .share-buttons .actually-share-vk {
   display: none;
-  background-image: url('/img/share.vk.png');
+  background-image: url('/special/creed/img/share.vk.png');
 }
 html body .preview .buttons .reload,
 html body .preview .share-buttons .reload {
-  background-image: url('/img/reload.png');
+  background-image: url('/special/creed/img/reload.png');
 }
 html body .preview .buttons .download,
 html body .preview .share-buttons .download {
-  background-image: url('/img/download.png');
+  background-image: url('/special/creed/img/download.png');
 }
 html body .preview .buttons .share,
 html body .preview .share-buttons .share {
-  background-image: url('/img/share.png');
+  background-image: url('/special/creed/img/share.png');
 }
 html body .preview .buttons .share-vk,
 html body .preview .share-buttons .share-vk {
-  background-image: url('/img/share.vk.png');
+  background-image: url('/special/creed/img/share.vk.png');
 }
 html body .preview .buttons .share-fb,
 html body .preview .share-buttons .share-fb {
-  background-image: url('/img/share.fb.png');
+  background-image: url('/special/creed/img/share.fb.png');
 }
 html body .preview .buttons .share-twitter,
 html body .preview .share-buttons .share-twitter {
-  background-image: url('/img/share.twitter.png');
+  background-image: url('/special/creed/img/share.twitter.png');
 }
 html body .loader-wrapper {
   position: absolute;
@@ -182,7 +182,7 @@ html body .loader-wrapper .loader-inner {
   letter-spacing: 3rem;
 }
 html body .loader-wrapper .loader-inner .loader {
-  background-image: url('/img/ajax-loader.gif');
+  background-image: url('/special/creed/img/ajax-loader.gif');
   background-size: cover;
   width: 160rem;
   height: 160rem;
@@ -192,7 +192,7 @@ html body .loader-wrapper .loader-inner .loader {
 }
 html body .loader-wrapper .loader-inner .loader:after {
   content: '';
-  background-image: url('/img/camera.png');
+  background-image: url('/special/creed/img/camera.png');
   background-size: cover;
   width: 41rem;
   height: 35rem;
@@ -205,14 +205,14 @@ html body .instructions-wrapper {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: url('/img/bg2.png') no-repeat center center fixed;
+  background: url('/special/creed/img/bg2.png') no-repeat center center fixed;
   background-size: cover;
   text-align: center;
 }
 html body .instructions-wrapper .ok {
   font-family: pf_din_text_cond_probold;
   font-size: 20rem;
-  background-image: url('/img/button.bg.png');
+  background-image: url('/special/creed/img/button.bg.png');
   background-size: cover;
   text-transform: uppercase;
   letter-spacing: 3rem;
@@ -255,11 +255,11 @@ html body .main {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: url('/img/bg.png') no-repeat center center fixed;
+  background: url('/special/creed/img/bg.png') no-repeat center center fixed;
   background-size: cover;
 }
 html body .main .creators-list {
-  background-image: url('/img/creators.list.png');
+  background-image: url('/special/creed/img/creators.list.png');
   background-size: cover;
   width: 100%;
   height: 83rem;
@@ -289,7 +289,7 @@ html body .main .social {
   float: right;
 }
 html body .main .creators {
-  background-image: url('/img/creators.png');
+  background-image: url('/special/creed/img/creators.png');
   background-size: cover;
   width: 270rem;
   height: 10rem;
@@ -297,14 +297,14 @@ html body .main .creators {
   clear: both;
 }
 html body .main .title {
-  background-image: url('/img/title.png');
+  background-image: url('/special/creed/img/title.png');
   background-size: cover;
   width: 202rem;
   height: 70rem;
   margin: 10rem auto 0;
 }
 html body .main .date {
-  background-image: url('/img/date.png');
+  background-image: url('/special/creed/img/date.png');
   background-size: cover;
   margin: 20rem auto 0;
   width: 109rem;
@@ -314,7 +314,7 @@ html body .main .copyright {
   position: absolute;
   bottom: 50rem;
   left: 5rem;
-  background-image: url('/img/copy.png');
+  background-image: url('/special/creed/img/copy.png');
   background-size: cover;
   margin: 20rem auto 0;
   width: 5rem;
@@ -343,7 +343,7 @@ html body .main .bottom .example-hashtag {
   font-family: pf_din_text_cond_probold;
   font-size: 42rem;
   color: #9e040c;
-  background-image: url('/img/example.hashtag.png');
+  background-image: url('/special/creed/img/example.hashtag.png');
   background-size: cover;
   margin: 0 auto;
   width: 358rem;
@@ -355,7 +355,7 @@ html body .main .bottom .user-hashtag {
   font-family: pf_din_text_cond_probold;
   font-size: 45rem;
   color: #000;
-  background: url('/img/user.hashtag.png');
+  background: url('/special/creed/img/user.hashtag.png');
   background-size: cover;
   margin: 10rem auto;
   width: 420rem;
@@ -371,7 +371,7 @@ html body .main .bottom .user-hashtag:active {
 html body .main .bottom .instructions {
   font-family: pf_din_text_cond_probold;
   font-size: 25rem;
-  background-image: url('/img/button.bg.png');
+  background-image: url('/special/creed/img/button.bg.png');
   background-size: cover;
   text-transform: uppercase;
   letter-spacing: 3rem;
@@ -385,7 +385,7 @@ html body .main .bottom .take-photo {
   display: block;
   font-family: pf_din_text_cond_probold;
   font-size: 25rem;
-  background-image: url('/img/button.bg.png');
+  background-image: url('/special/creed/img/button.bg.png');
   background-size: cover;
   text-transform: uppercase;
   letter-spacing: 3rem;
