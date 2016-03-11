@@ -51,30 +51,30 @@
     VK.init({apiId: 5200246});
     var progress = 0;
     var files = [
-        '/special/creed/bg.png',
-        '/special/creed/bg2.png',
-        '/special/creed/button.bg.png',
-        '/special/creed/copy.png',
-        '/special/creed/creators.png',
-        '/special/creed/date.png',
-        '/special/creed/download.png',
-        '/special/creed/example.hashtag.png',
-        '/special/creed/fb.png',
-        '/special/creed/instagram.png',
-        '/special/creed/ok.png',
-        '/special/creed/reload.png',
-        '/special/creed/share.fb.png',
-        '/special/creed/share.png',
-        '/special/creed/share.twitter.png',
-        '/special/creed/share.vk.png',
-        '/special/creed/title.png',
-        '/special/creed/twitter.png',
-        '/special/creed/user.hashtag.png',
-        '/special/creed/vk.png',
-        '/special/creed/youtube.png',
-        '/special/creed/watch.png',
-        '/special/creed/camera.png',
-        '/special/creed/ajax-loader.gif'
+        '/special/creed/img/bg.png',
+        '/special/creed/img/bg2.png',
+        '/special/creed/img/button.bg.png',
+        '/special/creed/img/copy.png',
+        '/special/creed/img/creators.png',
+        '/special/creed/img/date.png',
+        '/special/creed/img/download.png',
+        '/special/creed/img/example.hashtag.png',
+        '/special/creed/img/fb.png',
+        '/special/creed/img/instagram.png',
+        '/special/creed/img/ok.png',
+        '/special/creed/img/reload.png',
+        '/special/creed/img/share.fb.png',
+        '/special/creed/img/share.png',
+        '/special/creed/img/share.twitter.png',
+        '/special/creed/img/share.vk.png',
+        '/special/creed/img/title.png',
+        '/special/creed/img/twitter.png',
+        '/special/creed/img/user.hashtag.png',
+        '/special/creed/img/vk.png',
+        '/special/creed/img/youtube.png',
+        '/special/creed/img/watch.png',
+        '/special/creed/img/camera.png',
+        '/special/creed/img/ajax-loader.gif'
     ];
 
     var queue = new createjs.LoadQueue(true);
@@ -320,7 +320,7 @@
                                 var context = canvas.getContext('2d');
                                 var exampleHashTag = new Image();
 
-                                exampleHashTag.src = '/special/creed/example.hashtag.png';
+                                exampleHashTag.src = '/special/creed/img/example.hashtag.png';
                                 exampleHashTag.onload = function(){
                                     context.drawImage(
                                             exampleHashTag,
@@ -333,7 +333,7 @@
                                     context.fillText("# ГотовБоротьсяЗа",(canvas.width - exampleHashTag.width) / 2 + 25,canvas.height - exampleHashTag.height - 60);
 
                                     var userHashTag = new Image();
-                                    userHashTag.src = '/special/creed/example.hashtag.png';
+                                    userHashTag.src = '/special/creed/img/example.hashtag.png';
 
                                     userHashTag.onload = function(){
                                         context.drawImage(
@@ -438,7 +438,7 @@
         Разместив свою работу во ВКонтакте, ты участвуешь в розыгрыше легендарных
         часов Casio G-SHOCK.
     </p>
-    <img src="/special/creed/watch.png" class="watch">
+    <img src="/special/creed/img/watch.png" class="watch">
     <p>
         Подробнее о конкурсе
         на официальной странице студии
